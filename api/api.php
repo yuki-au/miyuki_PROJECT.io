@@ -143,10 +143,34 @@ if($request->getMethod() == 'POST') {
           }      
         }
 
-
-
      //********************************************
     // Add cart ends
+    //********************************************
+
+     //********************************************
+    // Remove product info in a cart starts (POST)
+    //********************************************
+     
+    
+    if($request->query->getAlpha('action') == 'removeproduct') {
+        if($request->request->get('products')){
+            $res = $sqsdb->removeCart(
+            $session->get('sessionObj')->returnUser(),
+            $request->request->get('products'));
+            
+            if($res == false) {
+                // Updating category list fail
+                $response->setStatusCode(400);
+            } else {
+                $session->get('sessionObj')->addCart($res);
+                $response->setStatusCode(200);
+                $response->setContent(json_encode($res));
+            }
+          }      
+        } 
+
+    //********************************************
+    // Remove product info in a cart starts (POST)
     //********************************************
 
 }

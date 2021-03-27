@@ -104,7 +104,7 @@
                             }
                         }
 
-                        print_r(count($n_cat));
+                       
                         return true;
                 
                   }else if(count($rows) >= count($n_cat) || (count($rows) <= count($n_cat))){
@@ -116,16 +116,16 @@
 
                              if($res==true){
                                 for($i = 0; $i < count($n_cat) ; $i = $i + 1){      
-                                      $sql2 ="INSERT INTO usercategory(categoryID, userID) VALUE(:catid,:usid)";
-                                      $stmt2 = $this->dbconn->prepare($sql2);
-                                      $stmt2->bindParam(':catid',intval($n_cat[$i]), PDO::PARAM_INT);
-                                      $stmt2->bindParam(':usid',intval($u), PDO::PARAM_INT);
-                                      $res2=$stmt2->execute();
+                                    $sql2 ="INSERT INTO usercategory(categoryID, userID) VALUE(:catid,:usid)";
+                                    $stmt2 = $this->dbconn->prepare($sql2);
+                                    $stmt2->bindParam(':catid',intval($n_cat[$i]), PDO::PARAM_INT);
+                                    $stmt2->bindParam(':usid',intval($u), PDO::PARAM_INT);
+                                     $res2=$stmt2->execute();
     
-                                      if($res2 == false){
-                                        echo('loop false');
-                                       return false;
-                                       }
+                                     if($res2 == false){
+                                      echo('loop false');
+                                      return false;
+                                     }
 
                                      }
                                     
@@ -148,34 +148,62 @@
     // Add cart starts (POST)
     //********************************************
        
-    function addCart($u, $product, $quantity) {          
-        $sql ="INSERT INTO cart(userID) VALUE(:usid)";
+    function addCart($u, $pro, $quantity) { 
+        // fetch product id and retrieve it
+        $sql ="SELECT * FROM product WHERE productID = :proid";
         $stmt = $this->dbconn->prepare($sql);
-        $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+        $stmt->bindParam(':proid', $pro, PDO::PARAM_INT);
         $res=$stmt->execute();
+        if($res == true){
+             // create cart table with user id (cartid auto incremented)
+            $sql2 ="INSERT INTO cart(userID) VALUE(:usid)";
+            $stmt2 = $this->dbconn->prepare($sql2);
+            $stmt2->bindParam(':usid',intval($u), PDO::PARAM_INT);
+            $res2=$stmt2->execute();
 
-        $cartid = $this->dbconn->lastinsertid(); 
-        // create cart table with user id
-         if($res == true){
-              $sql2 ="INSERT INTO cartproduct (cartID, productID, quantity) 
+            $cartid = $this->dbconn->lastinsertid(); 
+         if($res2 == true){
+              $sql3 ="INSERT INTO cartproduct (cartID, productID, quantity) 
               VALUES (:cid, :proID, :quantity)";
-              $stmt2 = $this->dbconn->prepare($sql2);
-              $stmt2->bindParam(':cid',$cartid, PDO::PARAM_INT);
-              $stmt2->bindParam(':proID',$product, PDO::PARAM_INT);
-              $stmt2->bindParam(':quantity',$quantity, PDO::PARAM_INT);
-              $res2=$stmt->execute();
+              $stmt3 = $this->dbconn->prepare($sql3);
+              $stmt3->bindParam(':cid',$cartid, PDO::PARAM_INT);
+              $stmt3->bindParam(':proID',$pro, PDO::PARAM_INT);
+              $stmt3->bindParam(':quantity',$quantity, PDO::PARAM_INT);
+              $res3=$stmt->execute();
                  
               return true;
             } else{
                  return false;
              }     
-         }     
+         } else{
+            echo('no such a product info');
+            return false;
+        }        
     
+        }
 
-
-
-     //********************************************
+    //********************************************
     // Add cart ends
+    //********************************************
+
+    //********************************************
+    // Remove product info in a cart starts (POST)
+    //********************************************
+     
+    function removeCart($u, $pro) { 
+        // fetch product id and retrieve it
+        $sql ="DELETE FROM cart  WHERE userID = :usid";
+        $stmt = $this->dbconn->prepare($sql);
+        $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+        $res=$stmt->execute();
+        
+        if($res == true){
+
+         }
+        }
+
+    //********************************************
+    // Remove product info in a cart starts (POST)
     //********************************************
 
 
