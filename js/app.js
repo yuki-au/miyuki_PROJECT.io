@@ -3,8 +3,8 @@ document.getElementById('registerform').addEventListener('submit', function(e) {
 document.getElementById('categoryform').addEventListener('submit', function(e) {categoryList(e)});
 // document.getElementById('linkisloggedin').addEventListener('click', function(e) {checkloggedin(e)});
 document.getElementById('update_cat_form').addEventListener('submit', function(e) {updateCatList(e)});
-// document.getElementById('logoutbutton').addEventListener('click', function(e) {fetchlogout(e)});
-
+// document.getElementById('getOrdersinfo').addEventListener('click', function(e) {getOrdersinfo(e)});
+document.getElementById('link_catlist').addEventListener('click', function(e) {goCatlist(e)});
 
 // Sign in part 
 // function signinButton() {
@@ -87,7 +87,7 @@ document.getElementById('update_cat_form').addEventListener('submit', function(e
     categories.forEach(item => items.push(item.value));
     var fd = new FormData();
     fd.append('categories', items);
-    // console.log(fd);
+    
 
     fetch('http://localhost/match/api/api.php?action=createcate',
     {
@@ -102,10 +102,17 @@ document.getElementById('update_cat_form').addEventListener('submit', function(e
                }else if (headers.status == 200) {
 
                 document.getElementById('reg_category').setAttribute("hidden", "hidden");
-                document.getElementById('categylist').removeAttribute("hidden");
+                document.getElementById('shopping_screen').removeAttribute("hidden");
                 return;
                  }
               })
+    }
+
+    categoryList(testFunc);
+
+
+    function testFunc(){
+        console.log('seccessful');
     }
 
    //**********************************************
@@ -177,11 +184,64 @@ document.getElementById('update_cat_form').addEventListener('submit', function(e
     // Add cart ends
     //********************************************
 
+     //********************************************
+    // Remove product info in a cart starts (POST)
+    //********************************************
+
+    function removeProduct(evt) {
+        evt.preventDefault();
+        var fd = new FormData();
+        fd.append('products', itemName);
+
+        fetch('http://localhost/match/api/api.php?action=removeproduct', 
+        {
+            method: 'POST',
+            body: fd,
+            credentials: 'include'            
+        })
+        .then(function (headers) {
+            if (headers.status == 400) {
+               alert('Error');
+                return;
+              }else if (headers.status == 200) {
+               return;
+                }
+             })
+   }
+
+    //********************************************
+    // Remove product info in a cart starts (POST)
+    //********************************************
 
         // ↑ ↑ ↑  POST Method  ↑ ↑ ↑
        // ↓ ↓ ↓  Get Method ↓ ↓ ↓
+       
 
 
+    //******************************************
+    // Managing Product information starts(GET)
+    //******************************************   
+
+    function getOrdersinfo(evt) {
+            fetch('http://localhost/match/app/api.php?action=getOrdersForUser', 
+            {
+                method: 'GET',
+                credentials: 'include'
+            })
+            .then(function (headers) {
+                if (headers.status == 400) {
+                alert('Error');
+                    return;
+                }else if (headers.status == 200) {
+                // put js function to show order info
+                return;
+                    }
+                })
+        }
+
+    //*************************************
+     // Managing Product information ends 
+    //************************************* 
 
    //**********************************************
  // Displaying products by category list starts(GET)
@@ -197,7 +257,7 @@ document.getElementById('update_cat_form').addEventListener('submit', function(e
             alert('Error');
                 return;
             }else if (headers.status == 200) {
-
+            //  put js function to show product info
             return;
                 }
             })
@@ -205,6 +265,31 @@ document.getElementById('update_cat_form').addEventListener('submit', function(e
     //***************************************** 
     // Displaying products by category list ends
     //******************************************
+
+  //**********************************************
+ // Calling category list created(GET)
+  //***********************************************
+  
+  function goCatlist(evt) {
+    fetch('http://localhost/match/app/api.php?action=gocatlist', 
+    {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(function (headers) {
+        if (headers.status == 400) {
+        alert('Error');
+            return;
+        }else if (headers.status == 200) {
+        return;
+            }
+        })
+}
+
+//***************************************** 
+// Displaying products by category list ends
+//***************************************** 
+
 
     //**********************************
     // checking loggedin starts(GET)

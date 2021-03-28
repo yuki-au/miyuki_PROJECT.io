@@ -158,11 +158,11 @@ h3{
 /* shopping */
 
 .card-img-top{
-    width: 50%;
+    width: 90%;
 }
 
-.col-xs-4{
-    width: 25%;
+.col-xs-2{
+    width: 50%;
 }
 
 .col-xs-4 > a >img {
@@ -191,7 +191,7 @@ h3{
 
 
 #top_nav {
-    height: 85px;
+    height: 90px;
     background-color: #ea5566 !important;
     color:lightgray;
 }
@@ -210,7 +210,6 @@ h3{
 
 #shop_logo > a > img{
     width: 80px;
-    margin: 0 0 10px 0;
 }
 
 
@@ -265,7 +264,7 @@ h3{
 
 #cart_logo{
     width: 50px;
-    padding: 10px 0 0 0;
+    padding: 20px 0 0 0;
     color: white;
 }
 
@@ -492,5 +491,39 @@ input[name="cat[]"]:checked~ .label_cate2 > img {
 
 h5{
     text-align: center;
+}
+
+#search_check{
+    transition: .5s;
+    position: absolute;
+    animation: Slideout .5s;
+    padding: 7px 0 0 0;
+}
+
+@keyframes Slideout {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#search_check > input{
+    border-radius: 5px;
+}
+
+#s_icon{
+    position: absolute;
+    width: 10px;
+    top: 18px;
+    left:10px;
+    color: #ea5566; 
+}
+
+#shopping, #search_top{
+    color: white;
 }
 

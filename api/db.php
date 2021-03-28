@@ -48,7 +48,6 @@
      //***************************************************
     // Register part2 Creating category list starts(POST)
     //***************************************************
-
          function creteList($c, $u) { 
            $cats = explode(",", $c);
            if (is_array($cats)){                  
@@ -80,35 +79,34 @@
      // Update user category list starts (POST)
      //********************************************
         function updateCatList($u, $ud_c) { 
-                $sql ="SELECT * FROM usercategory WHERE userID = :usid";
-                $stmt = $this->dbconn->prepare($sql);
-                $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
-                $res=$stmt->execute();
-                $rows = $stmt->fetchAll();
+            $sql ="SELECT * FROM usercategory WHERE userID = :usid";
+            $stmt = $this->dbconn->prepare($sql);
+            $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+            $res=$stmt->execute();
+            $rows = $stmt->fetchAll();
 
-                $n_cat = explode(",", $ud_c);
-            
+            $n_cat = explode(",", $ud_c);
+        
+                if($rows == 1){
+                    for($i = 0; $i<count($n_cat) ; $i = $i + 1){       
 
-                    if(count($rows) == count($n_cat)){
-                        for($i = 0; $i<count($n_cat) ; $i = $i + 1){       
-
-                        $sql ="UPDATE usercategory SET categoryID = :catid WHERE userID = :usid";
-                        $stmt = $this->dbconn->prepare($sql);
-                        $stmt->bindParam(':catid',intval($n_cat[$i]), PDO::PARAM_INT);
-                        $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
-                        $res=$stmt->execute();
-            
-                            if($res == false){
-                                echo('loop false');
+                    $sql ="UPDATE usercategory SET categoryID = :catid WHERE userID = :usid";
+                    $stmt = $this->dbconn->prepare($sql);
+                    $stmt->bindParam(':catid',intval($n_cat[$i]), PDO::PARAM_INT);
+                    $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+                    $res=$stmt->execute();
+        
+                        if($res == false){
+                            echo('loop false');
                             return false;
-                            }
                         }
+                    }
 
-                       
-                        return true;
+                    
+                    return true;
+            
                 
-                  }else if(count($rows) >= count($n_cat) || (count($rows) <= count($n_cat))){
-                    //  recreate the category list
+                  }else if($rows > 1){
                         $sql ="DELETE FROM usercategory WHERE userID = :usid";
                         $stmt = $this->dbconn->prepare($sql);
                         $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
@@ -135,7 +133,12 @@
                                 echo('fail to delete and update');
                                 return false; 
                             }
-                        } 
+
+
+                        }else{
+                        
+                            return false; 
+                        }
                      
                 }
                        
