@@ -43,7 +43,8 @@ if($request->getMethod() == 'POST') {
     // Login part starts(POST)
     //*****************************************************
     if(empty($request->request->get('login_username'))||empty($request->request->get('login_password'))) {
-        $response->setStatusCode(400);
+        echo('empty values');
+        $response->setStatusCode(418);
     }else{
         // if request is not empty,
         if($request->query->getAlpha('action') == 'loginmatch') {
