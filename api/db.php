@@ -10,6 +10,8 @@
             $this->dbconn = new PDO($dbURI, 'admin', 'test123');
             $this->dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
+
+        
     //*****************************************************
     // Login part starts(POST)
     //*****************************************************
@@ -18,14 +20,14 @@
         $stmt = $this->dbconn->prepare($sql);
         $stmt->bindParam(':username', $lu, PDO::PARAM_STR);
         $stmt->execute();
-        $row = $stmt->fetchAll();
-        
-            if(count($row) == 1) { 
+        $rows = $stmt->fetchAll();
+    
+        if($stmt->rowCount() > 0) {
                 // user exist
                
                 return true; 
 
-            } else if(count($row) == 0) {
+            } else {
                 
                 return false; 
                

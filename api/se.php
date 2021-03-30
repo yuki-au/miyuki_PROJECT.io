@@ -30,7 +30,7 @@
 
         public function is_rate_limited() {
             if($this->last_visit == 0) {
-                $this->last_visit = time();
+                $this->last_visit = time(); //present time
                 return false;
             }
             if($this->last_visit == time()) {

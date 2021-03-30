@@ -32,22 +32,26 @@ if(!$session->has('sessionObj')) {
     $session->set('sessionObj', new sqsSession);
 }     
 
+
 if($session->get('sessionObj')->is_rate_limited()) {
     $response->setStatusCode(429);
 }
 
    
-if($request->getMethod() == 'POST') {   
+elseif($request->getMethod() == 'POST') {   
 
     //*****************************************************
     // Login part starts(POST)
     //*****************************************************
-    if(empty($request->request->get('login_username'))||empty($request->request->get('login_password'))) {
+    if($request->query->getAlpha('action') == 'loginmatch') {
+            
+
+       if(empty($request->request->get('login_username'))||empty($request->request->get('login_password'))) {
         echo('empty values');
         $response->setStatusCode(418);
-    }else{
+        }else{
         // if request is not empty,
-        if($request->query->getAlpha('action') == 'loginmatch') {
+        // if($request->query->getAlpha('action') == 'loginmatch') {
             
             $res = $sqsdb->loginAccount($request->request->get('login_username'));
     
@@ -60,10 +64,8 @@ if($request->getMethod() == 'POST') {
                 }
 
                 } 
-            }  
-            
-                              
-
+    
+    }
 
     //*****************************************************
     // Login part ends
@@ -73,13 +75,13 @@ if($request->getMethod() == 'POST') {
     // Register part1 check & create user info starts(POST)
     //******************************************************
 
+    elseif($request->query->getAlpha('action') == 'checkaccount') {
+
     if(empty($request->request->get('username_register'))||empty($request->request->get('password_register'))||empty($request->request->get('repassword_register'))) {
         $response->setStatusCode(400);
     }else{
-        if($request->query->getAlpha('action') == 'checkaccount') {
-            if($request->request->has('username_register') and
-                $request->request->has('password_register')) {
-                $res = $sqsdb->checkUser($request->request->get('username_register'),$request->request->get('password_register'));
+                $res = $sqsdb->checkUser($request->request->get('username_register'),
+                $request->request->get('password_register'));
                     if($res == false) {
                         // user exists
                         echo ('passing value is fail');
@@ -91,10 +93,11 @@ if($request->getMethod() == 'POST') {
                         $response->setStatusCode(200);
                         $response->setContent(json_encode($res));
                     }
-                }
-            } else
-                    $response->setStatusCode(400);   
-    }                                       
+                
+            // } else
+            //         $response->setStatusCode(400);   
+     }                                       
+    }
 
     //*********************************************
    // Register part1 check & create user info ends
@@ -103,7 +106,7 @@ if($request->getMethod() == 'POST') {
     // Register part2 Creating category list starts(POST)
     //***************************************************
 
-    if($request->query->getAlpha('action') == 'createcate') {
+    elseif($request->query->getAlpha('action') == 'createcate') {
         if($request->request->get('categories')){
             $res = $sqsdb->creteList($request->request->get('categories'),
             $session->get('sessionObj')->returnUser());
@@ -130,7 +133,7 @@ if($request->getMethod() == 'POST') {
     // Update user category list starts (POST)
     //********************************************
 
-    if($request->query->getAlpha('action') == 'updatecat') {
+    elseif($request->query->getAlpha('action') == 'updatecat') {
         if($request->request->get('ud_categories')){
             $res = $sqsdb->updateCatList(
             $session->get('sessionObj')->returnUser(),
@@ -155,7 +158,7 @@ if($request->getMethod() == 'POST') {
     // Add cart starts (POST)
     //********************************************
 
-    if($request->query->getAlpha('action') == 'addcart') {
+    elseif($request->query->getAlpha('action') == 'addcart') {
         if($request->request->get('products')){
             $res = $sqsdb->addCart(
             $session->get('sessionObj')->returnUser(),
@@ -182,7 +185,7 @@ if($request->getMethod() == 'POST') {
     //********************************************
      
     
-    if($request->query->getAlpha('action') == 'removeproduct') {
+    elseif($request->query->getAlpha('action') == 'removeproduct') {
         if($request->request->get('products')){
             $res = $sqsdb->removeCart(
             $session->get('sessionObj')->returnUser(),
@@ -210,7 +213,7 @@ if($request->getMethod() == 'POST') {
         // ↓ ↓ ↓  Get Method ↓ ↓ ↓
 
 
- if($request->getMethod() == 'GET') {  
+ elseif($request->getMethod() == 'GET') {  
 
     //******************************************
      // Managing Product information starts(GET)
@@ -234,7 +237,7 @@ if($request->getMethod() == 'POST') {
     //**********************************************
    // Displaying products by category list starts(GET)
    //***********************************************
-    if($request->query->getAlpha('action') == 'showproduct') {
+    elseif($request->query->getAlpha('action') == 'showproduct') {
  
         $rows = $sqsdb->showProducts($session->get('sessionObj')->returnUser());
 
@@ -255,7 +258,7 @@ if($request->getMethod() == 'POST') {
     // Calling category list created starts(GET)
     //***********************************************
     
-    if($request->query->getAlpha('action') == 'callcatlist') {
+    elseif($request->query->getAlpha('action') == 'callcatlist') {
     
         $rows = $sqsdb->callCatlist($session->get('sessionObj')->returnUser(),
         $session->get('sessionObj')->returnCat());
@@ -275,7 +278,7 @@ if($request->getMethod() == 'POST') {
     // checking loggedin starts(GET)
     //**********************************
 
-    if ($request->query->getAlpha('action')=='isLoggedin'){
+    elseif ($request->query->getAlpha('action')=='isLoggedin'){
         $check = $session->get('sessionObj')->isLoggedIn();
 
         if ($check == true) {
@@ -296,7 +299,7 @@ if($request->getMethod() == 'POST') {
     // Logout starts(GET)
     //**********************************
 
-    if($request->query->getAlpha('action') == 'logout') {
+    elseif($request->query->getAlpha('action') == 'logout') {
         $session->get('sessionObj')->logout();
         $response->setStatusCode(200);     
     }
@@ -305,7 +308,6 @@ if($request->getMethod() == 'POST') {
     // Logout ends
     //**********************************
 }
-
 $response->send();
 
 ?>
