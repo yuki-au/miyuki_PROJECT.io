@@ -28,6 +28,11 @@ $response->headers->set('Access-Control-Allow-Credentials', 'true');
 
 $session->start();
 
+// $date = new \DateTime();
+// $date->setTimeZone(new \DateTimeZone('Australia/Brisbane'));
+// $session->setStartTime($date);
+
+
 if(!$session->has('sessionObj')) {
     $session->set('sessionObj', new sqsSession);
 }     
@@ -50,17 +55,23 @@ elseif($request->getMethod() == 'POST') {
         echo('empty values');
         $response->setStatusCode(418);
         }else{
-        // if request is not empty,
-        // if($request->query->getAlpha('action') == 'loginmatch') {
             
-            $res = $sqsdb->loginAccount($request->request->get('login_username'));
-    
+            $res = $sqsdb->loginAccount($request->request->get('login_username'),
+                 $request->request->get('login_password'));
+         
+
                 if($res == false) {
-                    echo ('user does not exist');
+                    
                     $response->setStatusCode(400);
-                } else if($res == true) {
-                    echo('true from api');
+                } else{
+
+                    date_default_timezone_set('Australia/Brisbane');
+                    $date = date("d-m-Y H:i:s");
+    
+
+                    $session->get('sessionObj')->login($res, $request->getClientIp(),$session->getId(), $date);
                     $response->setStatusCode(200);
+                    $response->setContent(json_encode($res));
                 }
 
                 } 
@@ -88,14 +99,16 @@ elseif($request->getMethod() == 'POST') {
                         $response->setStatusCode(400);
                     } else {
                         // if user doesn't exist, create new user & save data in the sessin
-                        $session->get('sessionObj')->register($res);
-                        $request->request->get('password_register');
+
+                        date_default_timezone_set('Australia/Brisbane');
+                        $date = date("d-m-Y H:i:s");
+
+                        $session->get('sessionObj')->register($res, $request->getClientIp(), $session->getId(), $date);
                         $response->setStatusCode(200);
                         $response->setContent(json_encode($res));
                     }
                 
-            // } else
-            //         $response->setStatusCode(400);   
+           
      }                                       
     }
 
@@ -169,7 +182,7 @@ elseif($request->getMethod() == 'POST') {
                 // Updating category list fail
                 $response->setStatusCode(400);
             } else {
-                $session->get('sessionObj')->addCart($res);
+                $session->get('sessionObj')->addToCart($res);
                 $response->setStatusCode(200);
                 $response->setContent(json_encode($res));
             }
@@ -195,7 +208,7 @@ elseif($request->getMethod() == 'POST') {
                 // Updating category list fail
                 $response->setStatusCode(400);
             } else {
-                $session->get('sessionObj')->addCart($res);
+                $session->get('sessionObj')->addToCart($res);
                 $response->setStatusCode(200);
                 $response->setContent(json_encode($res));
             }

@@ -10,22 +10,21 @@
             $this->dbconn = new PDO($dbURI, 'admin', 'test123');
             $this->dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
-
         
     //*****************************************************
     // Login part starts(POST)
     //*****************************************************
-    function loginAccount($lu) {
-        $sql = "SELECT * FROM user WHERE username = :username";
+    function loginAccount($lu, $lp) {
+        $sql = "SELECT * FROM user WHERE username = :username AND password = :pass";
         $stmt = $this->dbconn->prepare($sql);
         $stmt->bindParam(':username', $lu, PDO::PARAM_STR);
+        $stmt->bindParam(':pass', $lp, PDO::PARAM_STR);
         $stmt->execute();
         $rows = $stmt->fetchAll();
     
         if($stmt->rowCount() > 0) {
-                // user exist
-               
-                return true; 
+                // user exist     
+                return $lu; 
 
             } else {
                 
@@ -39,7 +38,7 @@
     // Login part ends
     //*****************************************************
 
-    //****************************************************
+    //******************************************************
     // Register part1 check & create user info starts(POST)
     //******************************************************      
      function checkUser($u,$p) {
@@ -77,11 +76,12 @@
      //***************************************************
     // Register part2 Creating category list starts(POST)
     //***************************************************
+
          function creteList($c, $u) { 
            $cats = explode(",", $c);
            if (is_array($cats)){                  
                for($i = 0; $i<count($cats) ; $i = $i + 1){       
-               // print_r(gettype($cats[$i]));
+               
                  $sql ="INSERT INTO usercategory(categoryID, userID) VALUE(:catid,:usid)";
                  $stmt = $this->dbconn->prepare($sql);
                  $stmt->bindParam(':catid',intval($cats[$i]), PDO::PARAM_INT);

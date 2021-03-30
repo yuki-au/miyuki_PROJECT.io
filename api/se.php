@@ -4,6 +4,7 @@
         // attributes will be stored in session, but always test incognito
         private int $last_visit = 0;
         private $last_visits = Array();
+        private $login_user_id = 0;
         private $user_id = 0;
         private $cat_id = 0;
         private $category_id = 0;
@@ -20,13 +21,6 @@
             $this->origin = getenv('ORIGIN');  
         }
 
-       
-
-
-        // example 
-        // public function setMyname($name) {
-        //     $this->mynameis = $name;
-        // }
 
         public function is_rate_limited() {
             if($this->last_visit == 0) {
@@ -38,6 +32,26 @@
             }
             return false;
         }
+
+        //*****************************************************
+        // Login part starts 
+        //*****************************************************
+        // comes from login phase
+        public function login($lu) {
+            $this->login_user_id = $lu;    
+        }
+        
+        // used to retrieve last user id
+        public function returnLoginUser() {
+            return $this->login_user_id;
+        }
+
+        //*****************************************************
+        // Login part ends 
+        //*****************************************************
+        //*****************************************************
+        // Register part starts 
+        //*****************************************************
 
         // comes from register phase
         public function register($u) {
@@ -59,6 +73,11 @@
             return $this->cat_id;
         }
 
+        //*****************************************************
+        // Register part ends 
+        //*****************************************************
+
+
         //  updated catefory information
         public function updatelist($n_cat){
             $this->category_id = $n_cat; 
@@ -71,7 +90,7 @@
         }
 
          //  Add item Cart information
-         public function addCart($cart){
+         public function addToCart($cart){
             $this->cart_id = $cart; 
         }
 
