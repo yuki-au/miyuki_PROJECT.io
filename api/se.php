@@ -55,7 +55,6 @@
         }
 
         // return category information
-
         public function returnCat() {
             return $this->cat_id;
         }

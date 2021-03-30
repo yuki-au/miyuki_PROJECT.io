@@ -39,6 +39,35 @@ if($session->get('sessionObj')->is_rate_limited()) {
    
 if($request->getMethod() == 'POST') {   
 
+    //*****************************************************
+    // Login part starts(POST)
+    //*****************************************************
+    if(empty($request->request->get('login_username'))||empty($request->request->get('login_password'))) {
+        $response->setStatusCode(400);
+    }else{
+        // if request is not empty,
+        if($request->query->getAlpha('action') == 'loginmatch') {
+            
+            $res = $sqsdb->loginAccount($request->request->get('login_username'));
+    
+                if($res == false) {
+                    echo ('user does not exist');
+                    $response->setStatusCode(400);
+                } else if($res == true) {
+                    echo('true from api');
+                    $response->setStatusCode(200);
+                }
+
+                } 
+            }  
+            
+                              
+
+
+    //*****************************************************
+    // Login part ends
+    //*****************************************************
+
      //****************************************************
     // Register part1 check & create user info starts(POST)
     //******************************************************
@@ -180,7 +209,7 @@ if($request->getMethod() == 'POST') {
         // ↓ ↓ ↓  Get Method ↓ ↓ ↓
 
 
-if($request->getMethod() == 'GET') {  
+ if($request->getMethod() == 'GET') {  
 
     //******************************************
      // Managing Product information starts(GET)
@@ -220,7 +249,27 @@ if($request->getMethod() == 'GET') {
     //***************************************** 
     // Displaying products by category list ends
     //******************************************
-   
+
+    //**********************************************
+    // Calling category list created starts(GET)
+    //***********************************************
+    
+    if($request->query->getAlpha('action') == 'callcatlist') {
+    
+        $rows = $sqsdb->callCatlist($session->get('sessionObj')->returnUser(),
+        $session->get('sessionObj')->returnCat());
+
+        if ($rows == true) {
+            $response->setStatusCode(200);
+            $response->setContent($rows); 
+        } else {
+            $response->setStatusCode(203);
+        }
+    }
+
+    //************************************
+    // Calling category list created ends
+    //************************************
     //**********************************
     // checking loggedin starts(GET)
     //**********************************

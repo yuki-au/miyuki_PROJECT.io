@@ -10,7 +10,33 @@
             $this->dbconn = new PDO($dbURI, 'admin', 'test123');
             $this->dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
- 
+    //*****************************************************
+    // Login part starts(POST)
+    //*****************************************************
+    function loginAccount($lu) {
+        $sql = "SELECT * FROM user WHERE username = :username";
+        $stmt = $this->dbconn->prepare($sql);
+        $stmt->bindParam(':username', $lu, PDO::PARAM_STR);
+        $stmt->execute();
+        $row = $stmt->fetchAll();
+        
+            if(count($row) == 1) { 
+                // user exist
+               
+                return true; 
+
+            } else if(count($row) == 0) {
+                
+                return false; 
+               
+            }
+      
+     }               
+
+    //*****************************************************
+    // Login part ends
+    //*****************************************************
+
     //****************************************************
     // Register part1 check & create user info starts(POST)
     //******************************************************      
@@ -19,6 +45,7 @@
             $stmt = $this->dbconn->prepare($sql);
             $stmt->bindParam(':username', $u, PDO::PARAM_STR);
             $stmt->execute();
+            
             if($stmt->rowCount() > 0) { 
                 // if user exists
                 echo('use exist');
@@ -258,6 +285,33 @@
     //***************************************** 
     // Displaying products by category list ends
     //******************************************
+
+     //**********************************************
+    // Calling category list created(GET)
+    //***********************************************
+
+    function callCatlist($u, $c) {
+        // $sql = "SELECT product.productID, product.productName, product.categoryID, 
+        // category.categoryID FROM product JOIN category 
+        // ON product.categoryID = category.categoryID 
+        // RIGHT JOIN usercategory ON category.categoryID = usercategory.categoryID WHERE userID = :usid";
+        // $stmt = $this->dbconn->prepare($sql);
+        // $stmt->bindParam(':usid', $cats, PDO::PARAM_INT);
+        // $res = $stmt->execute();
+       
+        // if($res === true) {  
+            
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+    }
+    
+   
+
+    //***************************************** 
+    // Displaying products by category list ends
+    //***************************************** 
 
         function logEvent($uid, $url, $resp_code, $source_ip) {
             $sql = "INSERT INTO logtable (url, uid, response_code, ip_addr) 

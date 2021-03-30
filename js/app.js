@@ -1,4 +1,4 @@
-// document.getElementById('loginform').addEventListener('submit', function(e) {fetchlogin(e)});
+document.getElementById('loginform').addEventListener('submit', function(e) {fetchlogin(e)});
 document.getElementById('registerform').addEventListener('submit', function(e) {registerCheck(e)});
 document.getElementById('categoryform').addEventListener('submit', function(e) {categoryList(e)});
 // document.getElementById('linkisloggedin').addEventListener('click', function(e) {checkloggedin(e)});
@@ -6,42 +6,37 @@ document.getElementById('update_cat_form').addEventListener('submit', function(e
 // document.getElementById('getOrdersinfo').addEventListener('click', function(e) {getOrdersinfo(e)});
 document.getElementById('link_catlist').addEventListener('click', function(e) {goCatlist(e)});
 
-// Sign in part 
-// function signinButton() {
-//     var formData = new FormData(document.forms.signin_content);
-//     formData.append('username', loginuser.value);
-//     formData.append('password', loginuser.pass);
-//     fetch('http://localhost/match/api/api.php?action=login',
-//         {
-//             method: 'POST',
-//             body: formData,
-//             credentials: 'include'
-//         })
-//         .then(function (headers) {
-//             // if login failed
-//             if (headers.status == 401) {
-//                 console.log('login failed');
-//                 localStorage.removeItem('csrf');
-//                 localStorage.removeItem('uname');
 
-//                 alert('your login has been failed')
-//                 return;
-//             }
-//             if (headers.status == 203) {
-//                 console.log('registration required');
-//                 // only need csrf
-//             }
-//             headers.json().then(function (body) {
-//                 // BUG is this a 203 or 200?
-//                 localStorage.setItem('csrf', body.Hash);
-//                 localStorage.setItem('uname', loginuser.value);
-//             })
-//         })
-//         .catch(function (error) {
-//             console.log(error)
-//         });
-// }
+//*****************************************************
+// Login part starts(POST)
+//*****************************************************
+function fetchlogin(evt) {
+    evt.preventDefault();
+    var fd = new FormData(loginform);
+    
+    fetch('http://localhost/match/api/api.php?action=loginmatch',
+    {
+        method: 'POST',
+        body: fd,
+        credentials: 'include'
+    })
+    .then(function (headers) {
+        if (headers.status == 400) {
+            alert("Error");
+            return;
+        }else if (headers.status == 200) {
+            console.log('you return 200!!!');
+            document.getElementById('signin_content').setAttribute("hidden", "hidden");
+            document.getElementById('shopping_screen').removeAttribute("hidden");
+            return;
+        }
+    })
+    .catch(error => console.log(error));
+        }
 
+//*****************************************************
+// Login part ends
+//*****************************************************
 
 //*****************************************************
 // Register part1 check & create user info starts(POST)
@@ -108,12 +103,12 @@ document.getElementById('link_catlist').addEventListener('click', function(e) {g
               })
     }
 
-    categoryList(testFunc);
+    // categoryList(testFunc);
 
 
-    function testFunc(){
-        console.log('seccessful');
-    }
+    // function testFunc(){
+    //     console.log('seccessful');
+    // }
 
    //**********************************************
     // Register part2 Creating category list ends 
@@ -269,10 +264,10 @@ document.getElementById('link_catlist').addEventListener('click', function(e) {g
   //**********************************************
  // Calling category list created(GET)
   //***********************************************
-  
+
   function goCatlist(evt) {
-    fetch('http://localhost/match/app/api.php?action=gocatlist', 
-    {
+    fetch('http://localhost/match/app/api.php?action=callcatlist', 
+    {     
         method: 'GET',
         credentials: 'include'
     })
