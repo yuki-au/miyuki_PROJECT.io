@@ -4,6 +4,7 @@
         // attributes will be stored in session, but always test incognito
         private int $last_visit = 0;
         private $last_visits = Array();
+        
         private $login_user_id = 0;
         private $user_id = 0;
         private $cat_id = 0;
@@ -15,7 +16,7 @@
 
         private $origin;
 
-        // private $mynameis;
+        
 
         public function __construct() {
             $this->origin = getenv('ORIGIN');  
@@ -23,15 +24,44 @@
 
 
         public function is_rate_limited() {
+
             if($this->last_visit == 0) {
-                $this->last_visit = time(); //present time
+                $this->last_visit = time(); 
                 return false;
             }
+
             if($this->last_visit == time()) {
                 return true;
             }
             return false;
+            
         }
+
+    //  For marking criteria partA (4) 
+        public function is_session_limited() {
+                 
+            date_default_timezone_set('Australia/Brisbane');
+            $timestamp = time();
+            
+            if(date("d-m-Y H:i:s", $timestamp+86400)){
+                // when 24 hours passed,
+                if($this->last_visit < 1000){
+                //check the number of session 
+                   return true;
+                }else{
+                    session_destroy();
+                    return false;
+                }
+
+            }else{
+                return true;
+            }         
+           
+     }
+      
+           
+            
+    
 
         //*****************************************************
         // Login part starts 

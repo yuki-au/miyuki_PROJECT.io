@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Dotenv\Dotenv;
+// use Symfony\Component\RateLimiter\RateLimiterFactory;
+
+header('Access-Control-Allow-Origin: http://localhost/match/index.html');
 
 $dotenv = new Dotenv();
 $dotenv->load('.env');
@@ -27,20 +30,23 @@ $response->headers->set('Access-Control-Allow-Origin', getenv('ORIGIN'));
 $response->headers->set('Access-Control-Allow-Credentials', 'true');
 
 $session->start();
-
-// $date = new \DateTime();
-// $date->setTimeZone(new \DateTimeZone('Australia/Brisbane'));
-// $session->setStartTime($date);
-
+session_regenerate_id(true);
 
 if(!$session->has('sessionObj')) {
     $session->set('sessionObj', new sqsSession);
 }     
 
 
+
 if($session->get('sessionObj')->is_rate_limited()) {
     $response->setStatusCode(429);
 }
+
+if($session->get('sessionObj')->is_session_limited()) {
+    $response->setStatusCode(429);
+}
+
+
 
    
 elseif($request->getMethod() == 'POST') {   
@@ -88,28 +94,28 @@ elseif($request->getMethod() == 'POST') {
 
     elseif($request->query->getAlpha('action') == 'checkaccount') {
 
-    if(empty($request->request->get('username_register'))||empty($request->request->get('password_register'))||empty($request->request->get('repassword_register'))) {
-        $response->setStatusCode(400);
-    }else{
-                $res = $sqsdb->checkUser($request->request->get('username_register'),
-                $request->request->get('password_register'));
-                    if($res == false) {
-                        // user exists
-                        echo ('passing value is fail');
-                        $response->setStatusCode(400);
-                    } else {
-                        // if user doesn't exist, create new user & save data in the sessin
+        if(empty($request->request->get('username_register'))||empty($request->request->get('password_register'))||empty($request->request->get('repassword_register'))) {
+            $response->setStatusCode(418);
+        }else{
+                    $res = $sqsdb->checkUser($request->request->get('username_register'),
+                    $request->request->get('password_register'));
+                        if($res == false) {
+                            // user exists
+                            echo ('passing value is fail');
+                            $response->setStatusCode(400);
+                        } else {
+                            // if user doesn't exist, create new user & save data in the sessin
 
-                        date_default_timezone_set('Australia/Brisbane');
-                        $date = date("d-m-Y H:i:s");
+                            date_default_timezone_set('Australia/Brisbane');
+                            $date = date("d-m-Y H:i:s");
 
-                        $session->get('sessionObj')->register($res, $request->getClientIp(), $session->getId(), $date);
-                        $response->setStatusCode(200);
-                        $response->setContent(json_encode($res));
-                    }
-                
-           
-     }                                       
+                            $session->get('sessionObj')->register($res, $request->getClientIp(), $session->getId(), $date);
+                            $response->setStatusCode(200);
+                            $response->setContent(json_encode($res));
+                        }
+                    
+            
+        }                                       
     }
 
     //*********************************************
