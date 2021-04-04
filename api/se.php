@@ -10,6 +10,7 @@
         private $cat_id = 0;
         private $category_id = 0;
         private $cart_id = 0;
+        private $product_info = Array();
 
         private $user_token;
         private $row;
@@ -38,26 +39,26 @@
         }
 
     //  For marking criteria partA (4) 
-        public function is_session_limited() {
+    //     public function is_session_limited() {
                  
-            date_default_timezone_set('Australia/Brisbane');
-            $timestamp = time();
+    //         date_default_timezone_set('Australia/Brisbane');
+    //         $timestamp = time();
             
-            if(date("d-m-Y H:i:s", $timestamp+86400)){
-                // when 24 hours passed,
-                if($this->last_visit < 1000){
-                //check the number of session 
-                   return true;
-                }else{
-                    session_destroy();
-                    return false;
-                }
+    //         if(date("d-m-Y H:i:s", $timestamp+86400)){
+    //             // when 24 hours passed,
+    //             if($this->last_visit < 1000){
+    //             //check the number of session 
+    //                return true;
+    //             }else{
+    //                 session_destroy();
+    //                 return false;
+    //             }
 
-            }else{
-                return true;
-            }         
+    //         }else{
+    //             return true;
+    //         }         
            
-     }
+    //  }
       
            
             
@@ -130,9 +131,21 @@
             return $this->cart_id;
         }
 
-      
+        //*****************************************************
+        // show product info starts 
+        //*****************************************************
 
+        public function showProduct($rows) {
+            return $this->product_info =$rows;
+        }
 
+        public function returnProduct() {
+            return $this->product_info;
+        }
+
+        //*****************************************************
+        // show product info ends 
+        //*****************************************************
 
 
 

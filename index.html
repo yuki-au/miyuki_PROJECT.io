@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Match</title>
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
-    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
- 
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+  
+  </head>
 
 <body>
   <!-- signin part -->
@@ -102,8 +102,14 @@
     </div>
   </div>
 
+  
+
+  
+
+
   <!-- category list for register user -->
   <div id="reg_category" class="container h-100" hidden>
+    
     <div class="d-flex justify-content-center h-100">
       <div class="user_card3">
         <div class="d-flex justify-content-center">
@@ -194,7 +200,6 @@
                 <label class="label_check2" for="check8">Thankful</label>
               </div>
             </div>
-  
             <div class="d-flex justify-content-center mt-3 login_container">
               <button type="submit" id="create" name="submit" class="btn login_btn">Create</button>
             </div>
@@ -203,12 +208,36 @@
         </div>
       </div>
     </div>
+ </div>
+
+ <!-- modal for users -->
+ <div id="modal_user" hidden>
+    <div id="modal_back"></div>
+   <form id="modal_content" method="GET" action="#">
+     <div id="modal_header">
+       Category List
+     </div>  
+     <div id="modal_middle">
+       <p>You choose <span id="modal_number">0</span> categories</p>
+       <p>Creating your category list</p>
+       <div class="text-center">
+         <div id="spin">
+           <div class="spinner-border text-danger" role="status"></div>
+        </div>
+       </div>
+
+     </div>
+     <div id="modal_botton" class="d-flex justify-content-center mt-3 login_container">
+      <button type="submit" id="save" name="submit" class="btn login_btn">We are ready!</button>
+    </form>
+
   </div>
+</div>
+  
 
 
   <!-- shopping screen -->
   <div id="shopping_screen" hidden>
-
     <nav id="top_nav" class="navbar navbar-dark bg-dark fixed-top">
       <!-- <nav id="top_nav" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"> -->
       <div id="menu_content" class="container">
@@ -267,14 +296,23 @@
       <div class="row text-center">
 
         <div class="col-xs-2 col-sm-2 col-md-2">
+          <a class="shop_product">
+            <img class="card-img-top" src="" alt=""></a>
+          <div class="card-body">
+            <h4 class="card-title"></h4>
+            <p class="card-text"></p>
+          </div>
+        </div>
+
+        <!-- <div class="col-xs-2 col-sm-2 col-md-2">
           <a class="shop_product"><img class="card-img-top" src="image/pro1.jpg" alt="1"></a>
           <div class="card-body">
             <h4 class="card-title">Product1</h4>
             <p class="card-text">$150</p>
           </div>
-        </div>
+        </div> 
 
-        <div class="col-xs-2 col-sm-2 col-md-2">
+         <div class="col-xs-2 col-sm-2 col-md-2">
           <a class="shop_product"><img class="card-img-top" src="image/pro2.jpg" alt="2"></a>
           <div class="card-body">
             <h4 class="card-title">Product2</h4>
@@ -328,7 +366,7 @@
             <h4 class="card-title">Product4</h4>
             <p class="card-text">$20</p>
           </div>
-        </div>
+        </div> -->
 
       </div>
 
@@ -345,7 +383,6 @@
         </div>
       </nav>
      
- 
         <div id="category_area" class="user_card4">
           <form id ="update_cat_form" action="#" method="POST">
             <h3>Update your category list</h3>
@@ -434,96 +471,7 @@
           </form>
         </div>
        
-        <!-- <div class="row text-center">
-          <form id = "update_cat_form" action="#" method="POST">
-            <h3>Update your category list</h3>
-            <h5>The result of showing the items will be different, as the list has been changed.</h5>
-          
-            <div class="row">
-
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat[]" id="check1" value="1">
-                <label class="label_cate2" for="check1">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/cheeruful.jpg" class="cate_img2" alt="cheerful">
-                </label>
-                <label class="label_check2">Cheerful</label>
-              </div>
-
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat[]" id="check2" value="2">
-                <label class="label_cate2" for="check2">               
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/calm.jpg" class="cate_img2" alt="cheerful">
-                </label>
-                <label class="label_check2">Calm</label>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat[]" id="check3" value="3">
-                <label class="label_cate2" for="check3">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/mysterious.jpg" class="cate_img2" alt="mysterious">
-                </label>
-                <label class="label_check2" for="check3">mysterious</label>
-              </div>
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat[]" id="check4" value="4">
-                <label class="label_cate2" for="check4">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/Energetic.jpg" class="cate_img2" alt="energitic">
-                </label>
-                <label class="label_check2" for="check4" checked>Energestic</label>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat[]" id="check5" value="5">
-                <label class="label_cate2" for="check5">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/peaceful.jpg" class="cate_img2" alt="energitic">
-                </label>
-                <label class="label_check2" for="check5">Peaceful</label>
-              </div>
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat[]" id="check6" value="6">
-                <label class="label_cate2" for="check6">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/aggressive.jpg" class="cate_img2" alt="aggressive">
-                </label>
-                <label class="label_check2" for="check6">Aggressive</label>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat[]" id="check7" value="7">
-                <label class="label_cate2" for="check7">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/confident.jpg" class="cate_img2" alt="confident">
-                </label>
-                <label class="label_check2" for="check7">confident</label>
-              </div>
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat[]" id="check8" value="8">
-                <label class="label_cate2" for="check8">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/thankful.jpg" class="cate_img2" alt="thankful">
-                </label>
-                <label class="label_check2" for="check8">Thankful</label>
-              </div>
-            </div>
-
-            <div class="d-flex justify-content-center mt-3 login_container">
-              <button type="submit" id="update" name="update" class="btn login_btn">Update</button>
-            </div>
-          </form>
-          
-        </div> -->
-
+       
     
 
     </div>
@@ -533,7 +481,7 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   
-    <script>
+  <script>
 
     // used to confirm each passwords are same
      function confirmPass(){
@@ -571,8 +519,19 @@
       var len = s.value.length;
       s.focus();
       s.setSelectionRange(len, len);
-  }
-      </script>
-</body>
+    }
 
+    
+
+  //   function closeImg() {
+  //   modal_user.style.visibility="hidden"; 
+  //   modal_user.style.opacity = "0";
+  // }
+
+
+
+</script>
+
+
+</body>
 </html>

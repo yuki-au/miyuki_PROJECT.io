@@ -42,9 +42,9 @@ if($session->get('sessionObj')->is_rate_limited()) {
     $response->setStatusCode(429);
 }
 
-if($session->get('sessionObj')->is_session_limited()) {
-    $response->setStatusCode(429);
-}
+// if($session->get('sessionObj')->is_session_limited()) {
+//     $response->setStatusCode(429);
+// }
 
 
 
@@ -203,7 +203,6 @@ elseif($request->getMethod() == 'POST') {
     // Remove product info in a cart starts (POST)
     //********************************************
      
-    
     elseif($request->query->getAlpha('action') == 'removeproduct') {
         if($request->request->get('products')){
             $res = $sqsdb->removeCart(
@@ -227,7 +226,6 @@ elseif($request->getMethod() == 'POST') {
 
 }
     
- 
         // ↑ ↑ ↑  POST Method  ↑ ↑ ↑
         // ↓ ↓ ↓  Get Method ↓ ↓ ↓
 
@@ -258,14 +256,15 @@ elseif($request->getMethod() == 'POST') {
    //***********************************************
     elseif($request->query->getAlpha('action') == 'showproduct') {
  
-        $rows = $sqsdb->showProducts($session->get('sessionObj')->returnUser());
+        $res = $sqsdb->showProducts($session->get('sessionObj')->returnUser());
 
-        if ($rows == true) {
-            $response->setStatusCode(200);
-            $response->setContent($rows); 
-            // save content in se.php↑
+        if ($res == true) {
+              $session->get('sessionObj')->showProduct($res);
+                $response->setStatusCode(200);
+                $response->setContent(json_encode($res));
         } else {
-            $response->setStatusCode(203);
+            echo('fail to show');
+            $response->setStatusCode(400);
         }
     }
 

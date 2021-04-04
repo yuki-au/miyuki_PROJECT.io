@@ -77,29 +77,31 @@
     // Register part2 Creating category list starts(POST)
     //***************************************************
 
-         function creteList($c, $u) { 
-           $cats = explode(",", $c);
-           if (is_array($cats)){                  
-               for($i = 0; $i<count($cats) ; $i = $i + 1){       
-               
-                 $sql ="INSERT INTO usercategory(categoryID, userID) VALUE(:catid,:usid)";
-                 $stmt = $this->dbconn->prepare($sql);
-                 $stmt->bindParam(':catid',intval($cats[$i]), PDO::PARAM_INT);
-                 $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
-                 $res=$stmt->execute();
-    
-                   if($res == false){
-                       echo('loop false');
-                      return false;
-                   }
+    function creteList($c, $u) { 
+        $cats = explode(",", $c);
+        if (is_array($cats)){        
+            
+            for($i = 0; $i<count($cats) ; $i = $i + 1){       
+            
+              $sql ="INSERT INTO usercategory(categoryID, userID) VALUE(:catid,:usid)";
+              $stmt = $this->dbconn->prepare($sql);
+              $stmt->bindParam(':catid',intval($cats[$i]), PDO::PARAM_INT);
+              $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+              $res=$stmt->execute();
+ 
+                if($res == false){
+                    echo('loop false');
+                   return false;
                 }
+             }
 
-                 return $cats;
+              return $cats;
 
-                }else{
-                    return false;
-                }     
-            }     
+             }else{
+                 return false;
+             }     
+        
+         }     
 
     //**********************************************
     // Register part2 Creating category list ends 
@@ -175,7 +177,6 @@
     // Update user category list ends 
     //********************************************
 
-
     //********************************************
     // Add cart starts (POST)
     //********************************************
@@ -232,6 +233,7 @@
         if($res == true){
 
          }
+
         }
 
     //********************************************
@@ -260,25 +262,27 @@
                     return false;
                 }
             }
+
      //*************************************
      // Managing Product information ends 
     //************************************* 
 
-    //**********************************************
+   //*************************************************
    // Displaying products by category list starts(GET)
-   //***********************************************
+   //**************************************************
+   
         function showProducts($u) {
             $sql = "SELECT product.productID, product.productName, product.categoryID, 
             category.categoryID FROM product JOIN category 
             ON product.categoryID = category.categoryID 
             RIGHT JOIN usercategory ON category.categoryID = usercategory.categoryID WHERE userID = :usid";
             $stmt = $this->dbconn->prepare($sql);
-            $stmt->bindParam(':usid', $cats, PDO::PARAM_INT);
+            $stmt->bindParam(':usid', $u, PDO::PARAM_INT);
             $res = $stmt->execute();
+            $rows = $stmt->fetchAll();
            
-            if($res === true) {  
-                
-                return true;
+            if($res === true) {   
+                return $rows;
             } else {
                 return false;
             }

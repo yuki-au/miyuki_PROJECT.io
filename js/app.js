@@ -5,7 +5,7 @@ document.getElementById('categoryform').addEventListener('submit', function(e) {
 document.getElementById('update_cat_form').addEventListener('submit', function(e) {updateCatList(e)});
 // document.getElementById('getOrdersinfo').addEventListener('click', function(e) {getOrdersinfo(e)});
 document.getElementById('link_catlist').addEventListener('click', function(e) {goCatlist(e)});
-
+document.getElementById('modal_content').addEventListener('submit', function(e) {showProductinfo(e)});
 
 //*****************************************************
 // Login part starts(POST)
@@ -96,8 +96,12 @@ function fetchlogin(evt) {
                  return;
                }else if (headers.status == 200) {
 
-                document.getElementById('reg_category').setAttribute("hidden", "hidden");
-                document.getElementById('shopping_screen').removeAttribute("hidden");
+                // document.getElementById('reg_category').setAttribute("hidden", "hidden");
+                // document.getElementById('shopping_screen').removeAttribute("hidden");
+                
+
+                document.getElementById('modal_user').removeAttribute("hidden");
+                document.getElementById('modal_number').innerHTML = items.length;
                 return;
                  }
               })
@@ -169,7 +173,7 @@ function fetchlogin(evt) {
                alert('Error');
                 return;
               }else if (headers.status == 200) {
-
+             
                return;
                 }
              })
@@ -218,7 +222,8 @@ function fetchlogin(evt) {
     //******************************************   
 
     function getOrdersinfo(evt) {
-            fetch('http://localhost/match/app/api.php?action=getOrdersForUser', 
+            evt.preventDefault();
+            fetch('http://localhost/match/api/api.php?action=getOrdersForUser', 
             {
                 method: 'GET',
                 credentials: 'include'
@@ -238,32 +243,49 @@ function fetchlogin(evt) {
      // Managing Product information ends 
     //************************************* 
 
-   //**********************************************
- // Displaying products by category list starts(GET)
-  //***********************************************
-    function showProduct(evt) {
-        fetch('http://localhost/match/app/api.php?action=showproduct', 
+   //**************************************************
+   // Displaying products by category list starts(GET)
+  //***************************************************
+
+    function showProductinfo(evt) {
+        evt.preventDefault();
+        fetch('http://localhost/match/api/api.php?action=showproduct', 
         {
             method: 'GET',
             credentials: 'include'
         })
         .then(function (headers) {
             if (headers.status == 400) {
-            alert('Error');
+                alert('Error');
                 return;
             }else if (headers.status == 200) {
-            //  put js function to show product info
-            return;
+            
+                document.getElementById('modal_user').setAttribute("hidden", "hidden");
+                document.getElementById('reg_category').setAttribute("hidden", "hidden");
+                document.getElementById('shopping_screen').removeAttribute("hidden");
+
+                // For showing images
+                // rows.forEach(item => items.push(item.value));
+                // var imgfrom = img.src;
+                // var imgtitle = img.title;
+                // var imgdesc = img.alt;
+
+                // zoomimg.src = imgfrom;
+                // test.innerHTML = imgtitle;
+                // desc.innerHTML = imgdesc;
+
+                return;
                 }
             })
     }
-    //***************************************** 
-    // Displaying products by category list ends
-    //******************************************
 
-  //**********************************************
+    //*******************************************
+    // Displaying products by category list ends
+    //*******************************************
+
+  //*************************************
  // Calling category list created(GET)
-  //***********************************************
+  //************************************
 
   function goCatlist(evt) {
     fetch('http://localhost/match/app/api.php?action=callcatlist', 
@@ -281,9 +303,9 @@ function fetchlogin(evt) {
         })
 }
 
-//***************************************** 
+//*******************************************
 // Displaying products by category list ends
-//***************************************** 
+//*******************************************
 
 
     //**********************************
