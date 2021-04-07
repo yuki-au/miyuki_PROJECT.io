@@ -30,23 +30,21 @@ $response->headers->set('Access-Control-Allow-Origin', getenv('ORIGIN'));
 $response->headers->set('Access-Control-Allow-Credentials', 'true');
 
 $session->start();
-session_regenerate_id(true);
+
 
 if(!$session->has('sessionObj')) {
     $session->set('sessionObj', new sqsSession);
 }     
 
-
-
-if($session->get('sessionObj')->is_rate_limited()) {
+  // Rate limit Web Service to one request per second per user session 
+  if($session->get('sessionObj')->is_rate_limited()) {
     $response->setStatusCode(429);
 }
 
-// if($session->get('sessionObj')->is_session_limited()) {
-//     $response->setStatusCode(429);
-// }
-
-
+// Limit per session request to 1,000 in a 24hour period 
+if($session->get('sessionObj')->is_session_limited() == false) {
+    $response->setStatusCode(429);
+}
 
    
 elseif($request->getMethod() == 'POST') {   
@@ -64,20 +62,20 @@ elseif($request->getMethod() == 'POST') {
             
             $res = $sqsdb->loginAccount($request->request->get('login_username'),
                  $request->request->get('login_password'));
-         
+            
+                
 
                 if($res == false) {
-                    
+                    echo('res false1'); 
                     $response->setStatusCode(400);
                 } else{
+                   
+                    // login time is recorded in se.php
 
-                    date_default_timezone_set('Australia/Brisbane');
-                    $date = date("d-m-Y H:i:s");
-    
-
-                    $session->get('sessionObj')->login($res, $request->getClientIp(),$session->getId(), $date);
+                    $session->get('sessionObj')->login($res, $request->getClientIp(),$session->getId());
                     $response->setStatusCode(200);
                     $response->setContent(json_encode($res));
+                 
                 }
 
                 } 
@@ -99,6 +97,9 @@ elseif($request->getMethod() == 'POST') {
         }else{
                     $res = $sqsdb->checkUser($request->request->get('username_register'),
                     $request->request->get('password_register'));
+     
+                    // $session_id = $session->getId();
+                    //  print_r($session_id);
                         if($res == false) {
                             // user exists
                             echo ('passing value is fail');
@@ -108,10 +109,11 @@ elseif($request->getMethod() == 'POST') {
 
                             date_default_timezone_set('Australia/Brisbane');
                             $date = date("d-m-Y H:i:s");
-
+                           
                             $session->get('sessionObj')->register($res, $request->getClientIp(), $session->getId(), $date);
                             $response->setStatusCode(200);
                             $response->setContent(json_encode($res));
+                           
                         }
                     
             
@@ -226,9 +228,9 @@ elseif($request->getMethod() == 'POST') {
 
 }
     
-        // ↑ ↑ ↑  POST Method  ↑ ↑ ↑
-        // ↓ ↓ ↓  Get Method ↓ ↓ ↓
 
+
+       
 
  elseif($request->getMethod() == 'GET') {  
 
@@ -257,7 +259,7 @@ elseif($request->getMethod() == 'POST') {
     elseif($request->query->getAlpha('action') == 'showproduct') {
  
         $res = $sqsdb->showProducts($session->get('sessionObj')->returnUser());
-
+         
         if ($res == true) {
               $session->get('sessionObj')->showProduct($res);
                 $response->setStatusCode(200);

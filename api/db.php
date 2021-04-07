@@ -22,9 +22,9 @@
         $stmt->execute();
         $rows = $stmt->fetchAll();
     
-        if($stmt->rowCount() > 0) {
+        if($stmt->rowCount() ) {
                 // user exist     
-                return $lu; 
+                return true; 
 
             } else {
                 
@@ -60,11 +60,11 @@
                 $stmt2->bindParam(':password', $p, PDO::PARAM_STR);
                 $res2 = $stmt2->execute();
                
-                 $userid = $this->dbconn->lastinsertid(); 
+                 $user = $this->dbconn->lastInsertId(); 
                 if($res2 == true) {     
-                    return $userid;    
+                    return $user;    
                 }else {
-                    echo('error, last id is undifined');
+                    echo('error, last  is undifined');
                     return false;
                 }
               }  
@@ -83,10 +83,10 @@
             
             for($i = 0; $i<count($cats) ; $i = $i + 1){       
             
-              $sql ="INSERT INTO usercategory(categoryID, userID) VALUE(:catid,:usid)";
+              $sql ="INSERT INTO usercategory(categoryID, userID) VALUE(:cat,:us)";
               $stmt = $this->dbconn->prepare($sql);
-              $stmt->bindParam(':catid',intval($cats[$i]), PDO::PARAM_INT);
-              $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+              $stmt->bindParam(':cat',intval($cats[$i]), PDO::PARAM_INT);
+              $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
               $res=$stmt->execute();
  
                 if($res == false){
@@ -95,7 +95,7 @@
                 }
              }
 
-              return $cats;
+              return true;
 
              }else{
                  return false;
@@ -110,9 +110,9 @@
      // Update user category list starts (POST)
      //********************************************
         function updateCatList($u, $ud_c) { 
-            $sql ="SELECT * FROM usercategory WHERE userID = :usid";
+            $sql ="SELECT * FROM usercategory WHERE userID = :us";
             $stmt = $this->dbconn->prepare($sql);
-            $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+            $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
             $res=$stmt->execute();
             $rows = $stmt->fetchAll();
 
@@ -121,10 +121,10 @@
                 if($rows == 1){
                     for($i = 0; $i<count($n_cat) ; $i = $i + 1){       
 
-                    $sql ="UPDATE usercategory SET categoryID = :catid WHERE userID = :usid";
+                    $sql ="UPDATE usercategory SET categoryID = :cat WHERE userID = :us";
                     $stmt = $this->dbconn->prepare($sql);
-                    $stmt->bindParam(':catid',intval($n_cat[$i]), PDO::PARAM_INT);
-                    $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+                    $stmt->bindParam(':cat',intval($n_cat[$i]), PDO::PARAM_INT);
+                    $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
                     $res=$stmt->execute();
         
                         if($res == false){
@@ -138,17 +138,17 @@
             
                 
                   }else if($rows > 1){
-                        $sql ="DELETE FROM usercategory WHERE userID = :usid";
+                        $sql ="DELETE FROM usercategory WHERE userID = :us";
                         $stmt = $this->dbconn->prepare($sql);
-                        $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+                        $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
                         $res=$stmt->execute();
 
                              if($res==true){
                                 for($i = 0; $i < count($n_cat) ; $i = $i + 1){      
-                                    $sql2 ="INSERT INTO usercategory(categoryID, userID) VALUE(:catid,:usid)";
+                                    $sql2 ="INSERT INTO usercategory(categoryID, userID) VALUE(:cat,:us)";
                                     $stmt2 = $this->dbconn->prepare($sql2);
-                                    $stmt2->bindParam(':catid',intval($n_cat[$i]), PDO::PARAM_INT);
-                                    $stmt2->bindParam(':usid',intval($u), PDO::PARAM_INT);
+                                    $stmt2->bindParam(':cat',intval($n_cat[$i]), PDO::PARAM_INT);
+                                    $stmt2->bindParam(':us',intval($u), PDO::PARAM_INT);
                                      $res2=$stmt2->execute();
     
                                      if($res2 == false){
@@ -182,38 +182,39 @@
     //********************************************
        
     function addCart($u, $pro, $quantity) { 
-        // fetch product id and retrieve it
-        $sql ="SELECT * FROM product WHERE productID = :proid";
+        // fetch product  and retrieve it
+        $sql ="SELECT * FROM product WHERE productID = :pro";
         $stmt = $this->dbconn->prepare($sql);
-        $stmt->bindParam(':proid', $pro, PDO::PARAM_INT);
+        $stmt->bindParam(':pro', $pro, PDO::PARAM_INT);
         $res=$stmt->execute();
         if($res == true){
-             // create cart table with user id (cartid auto incremented)
-            $sql2 ="INSERT INTO cart(userID) VALUE(:usid)";
+             // create cart table with user  (cart auto incremented)
+            $sql2 ="INSERT INTO cart(userID) VALUE(:us)";
             $stmt2 = $this->dbconn->prepare($sql2);
-            $stmt2->bindParam(':usid',intval($u), PDO::PARAM_INT);
+            $stmt2->bindParam(':us',intval($u), PDO::PARAM_INT);
             $res2=$stmt2->execute();
 
-            $cartid = $this->dbconn->lastinsertid(); 
+            $cart = $this->dbconn->lastinsert(); 
          if($res2 == true){
               $sql3 ="INSERT INTO cartproduct (cartID, productID, quantity) 
-              VALUES (:cid, :proID, :quantity)";
+              VALUES (:c, :proID, :quantity)";
               $stmt3 = $this->dbconn->prepare($sql3);
-              $stmt3->bindParam(':cid',$cartid, PDO::PARAM_INT);
+              $stmt3->bindParam(':c',$cart, PDO::PARAM_INT);
               $stmt3->bindParam(':proID',$pro, PDO::PARAM_INT);
               $stmt3->bindParam(':quantity',$quantity, PDO::PARAM_INT);
               $res3=$stmt->execute();
                  
               return true;
-            } else{
+            } else {
                  return false;
              }     
+
          } else{
             echo('no such a product info');
             return false;
         }        
     
-        }
+    }
 
     //********************************************
     // Add cart ends
@@ -224,17 +225,16 @@
     //********************************************
      
     function removeCart($u, $pro) { 
-        // fetch product id and retrieve it
-        $sql ="DELETE FROM cart  WHERE userID = :usid";
+        // fetch product  and retrieve it
+        $sql ="DELETE FROM cart  WHERE userID = :us";
         $stmt = $this->dbconn->prepare($sql);
-        $stmt->bindParam(':usid',intval($u), PDO::PARAM_INT);
+        $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
         $res=$stmt->execute();
         
         if($res == true){
-
+            
          }
-
-        }
+     }
 
     //********************************************
     // Remove product info in a cart starts (POST)
@@ -251,9 +251,9 @@
     //******************************************   
 
         function getOrdersForUser($u){
-            $sql = "SELECT * FROM orderdata WHERE userID = :userid";
+            $sql = "SELECT * FROM orderdata WHERE userID = :user";
             $stmt = $this->dbconn->prepare($sql);
-            $stmt->bindParam(':userid', $u, PDO::PARAM_INT);
+            $stmt->bindParam(':user', $u, PDO::PARAM_INT);
             $result = $stmt->execute();
             $rows = $stmt->fetchAll();
                 if($result === true) {  
@@ -270,14 +270,14 @@
    //*************************************************
    // Displaying products by category list starts(GET)
    //**************************************************
-   
+
         function showProducts($u) {
             $sql = "SELECT product.productID, product.productName, product.categoryID, 
             category.categoryID FROM product JOIN category 
             ON product.categoryID = category.categoryID 
-            RIGHT JOIN usercategory ON category.categoryID = usercategory.categoryID WHERE userID = :usid";
+            RIGHT JOIN usercategory ON category.categoryID = usercategory.categoryID WHERE userID = :us";
             $stmt = $this->dbconn->prepare($sql);
-            $stmt->bindParam(':usid', $u, PDO::PARAM_INT);
+            $stmt->bindParam(':us', $u, PDO::PARAM_INT);
             $res = $stmt->execute();
             $rows = $stmt->fetchAll();
            
@@ -286,6 +286,7 @@
             } else {
                 return false;
             }
+
         }
 
     //***************************************** 
@@ -300,9 +301,9 @@
         // $sql = "SELECT product.productID, product.productName, product.categoryID, 
         // category.categoryID FROM product JOIN category 
         // ON product.categoryID = category.categoryID 
-        // RIGHT JOIN usercategory ON category.categoryID = usercategory.categoryID WHERE userID = :usid";
+        // RIGHT JOIN usercategory ON category.categoryID = usercategory.categoryID WHERE userID = :us";
         // $stmt = $this->dbconn->prepare($sql);
-        // $stmt->bindParam(':usid', $cats, PDO::PARAM_INT);
+        // $stmt->bindParam(':us', $cats, PDO::PARAM_INT);
         // $res = $stmt->execute();
        
         // if($res === true) {  
@@ -319,11 +320,11 @@
     // Displaying products by category list ends
     //***************************************** 
 
-        function logEvent($uid, $url, $resp_code, $source_ip) {
-            $sql = "INSERT INTO logtable (url, uid, response_code, ip_addr) 
-                VALUES (:url, :uid, :resp_code, :ip);";
+        function logEvent($u, $url, $resp_code, $source_ip) {
+            $sql = "INSERT INTO logtable (url, u, response_code, ip_addr) 
+                VALUES (:url, :u, :resp_code, :ip);";
             $stmt = $this->$dbconn->prepare($sql);
-            $stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+            $stmt->bindParam(':u', $u, PDO::PARAM_INT);
             $stmt->bindParam(':url', $url, PDO::PARAM_STR);
             $stmt->bindParam(':resp_code', $resp_code, PDO::PARAM_INT);
             $stmt->bindParam(':ip', $source_ip, PDO::PARAM_STR);
