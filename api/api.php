@@ -62,8 +62,6 @@ elseif($request->getMethod() == 'POST') {
             
             $res = $sqsdb->loginAccount($request->request->get('login_username'),
                  $request->request->get('login_password'));
-            
-                
 
                 if($res == false) {
                     echo('res false1'); 

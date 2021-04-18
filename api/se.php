@@ -43,27 +43,30 @@
             
         }
 
-    // Limit per session request to 1,000 in a 24hours period 
+    // // Limit per session request to 1,000 in a 24hours period 
     public function is_session_limited() {
 
             if($this->login_datetime == 0) {
                 return false;
             }else{
             //  once user login, 
-            // return false if user have accessed 1000 times in 24 hours
-                if(date("d-m-Y H:i:s",strtotime($this->login_datetime. "+1 day")) 
-                && $this->count_request>=1000){
+            // if it takes 24 hours↓
+                if(date("d-m-Y H:i:s",strtotime($this->login_datetime. "+1 day"))) {
+                if ($this->count_request>=1000) {
                        return false;
+                
                     }else{
+                        // less than 1000 times
+                        $this->count_request=0;
                         return true;
                     }
                     
                     return true;
+            }else{
+                //　time is less than 24 hours
+                return true;
             }
-        
-        
-            return true;
-                
+        }       
     }
 
 
@@ -99,7 +102,8 @@
 
         // comes from register phase
         public function register($u) {
-            $this->user_id = $u;   
+            $this->user_id = $u;
+            $this->count_request ++;   
         }
         
         // used to retrieve last user id
@@ -158,10 +162,6 @@
         //*****************************************************
         // show product info ends 
         //*****************************************************
-
-
-
-
 
         public function isLoggedIn() {
             if($this->user_id === 0) {
