@@ -3,10 +3,10 @@
     class sqsSession {
         // attributes will be stored in session, but always test incognito
         private $user_request = 0;
-        private $count_request = 0;
-
         private $login_user_id = 0;
-        private $login_datetime = 0;
+
+        private $count_request = 0;
+        private $request_datetime = 0;
 
 
         private $user_id = 0;
@@ -46,45 +46,42 @@
     // // Limit per session request to 1,000 in a 24hours period 
     public function is_session_limited() {
 
-            if($this->login_datetime == 0) {
+            if($this->count_request == 0) {
+                // count_request comes from each session
                 return false;
-            }else{
-            //  once user login, 
-            // if it takes 24 hours↓
-                if(date("d-m-Y H:i:s",strtotime($this->login_datetime. "+1 day"))) {
-                if ($this->count_request>=1000) {
-                       return false;
-                
-                    }else{
-                        // less than 1000 times
-                        $this->count_request=0;
+                }else{
+                //  once user login, 
+                // if it takes 24 hours↓
+                    if(date("d-m-Y H:i:s",strtotime($this->request_datetime. "+1 day"))) {
+                    if ($this->count_request>=1000) {
+                        
+                        return false;
+                        
+                        }else{
+                            // less than 1000 times
+                            $this->count_request=0;
+                            return true;
+                        }
+                        
                         return true;
-                    }
-                    
+                }else{
+                    //　time is less than 24 hours
                     return true;
-            }else{
-                //　time is less than 24 hours
-                return true;
-            }
-        }       
-    }
-
-
-           
-            
-    
+                }
+            }       
+        }
 
         //*****************************************************
         // Login part starts 
         //*****************************************************
         
         public function login($lu) {
-            $this->login_user_id = $lu;    
-            $this->count_request ++;
-            // ↑　used to count how many times user access
-
             date_default_timezone_set('Australia/Brisbane');
-            $this->login_datetime = date("d-m-Y H:i:s");
+            $this->request_datetime = date("d-m-Y H:i:s");
+
+            $this->login_user_id = $lu;    
+            $this->count_request ++ ;
+            // ↑　used to count how many times user access
             
         }
         
@@ -129,6 +126,7 @@
         //  updated catefory information
         public function updatelist($n_cat){
             $this->category_id = $n_cat; 
+            $this->count_request ++;
         }
 
         // return updated category information
@@ -140,6 +138,7 @@
          //  Add item Cart information
          public function addToCart($cart){
             $this->cart_id = $cart; 
+            $this->count_request ++;
         }
 
         // return stored information in a cart
