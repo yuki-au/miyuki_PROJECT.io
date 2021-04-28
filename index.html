@@ -6,38 +6,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match</title>
+    <link rel="manifest" href="manifest.json">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-  
   </head>
 
-<body>
-  <!-- signin part -->
+<body class="">
+  <!--************** Login part starts *****************-->
   <div id="signin_content" class="container h-100">
     <div class="d-flex justify-content-center h-100">
       <div class="user_card">
         <div class="d-flex justify-content-center">
           <div class="brand_logo_container">
-            <img src="image/new_logo.png" class="brand_logo" alt="Logo">
+            <img src="image/formlogo.png" class="brand_logo" alt="Logo">
           </div>
         </div>
         <div class="d-flex justify-content-center form_container">
-
+          <span id="alert_message"></span>
           <form id="loginform" action="#" method="POST">
             <div class="input-group mb-3">
               <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
               </div>
-              <input type="text" id="login_username" name="login_username" class="form-control input_user" placeholder="username">
+              <input type="text" id="login_username" name="login_username" class="form-control input_user" placeholder="username" maxlength="32"
+              title="try again" onblur="fillLogForm()">
             </div>
+            <p id ="l_usname" class="small_desc"></p>
             <div class="input-group mb-2">
               <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-key"></i></span>
               </div>
-              <input type="password" name="login_password" class="form-control input_pass" placeholder="password" id="login_password">
+              <input type="password" id="login_password" name="login_password" class="form-control input_pass" placeholder="password" id="login_password"
+               onblur="fillLogForm()">
             </div>
+            <p id="l_pass" class="small_desc"></p>
             <div class="form-group">
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="remember1">
@@ -62,15 +66,15 @@
       </div>
     </div>
   </div>
+  <!--************** Login part ends *****************-->
 
-
-  <!-- register -->
+  <!--************** register part starts *****************-->
   <div id="register_content" class="container h-100" hidden>
     <div class="d-flex justify-content-center h-100">
       <div class="user_card2">
         <div class="d-flex justify-content-center">
           <div class="brand_logo_container">
-            <img src="image/new_logo.png" class="brand_logo" alt="Logo">
+            <img src="image/formlogo.png" class="brand_logo" alt="Logo">
           </div>
         </div>
         <div id="register_area" class="d-flex justify-content-center form_container">
@@ -78,17 +82,20 @@
           <form id="registerform" action="#" method="POST">
             <h3>Register</h3>
             <div class="input-group mb-3">
-              <input type="text" name="username_register" id="username_register" class="form-control input_user" placeholder="username(at least 6 digits)">
+              <input type="text" name="username_register" id="username_register" class="form-control input_user" placeholder="username(at least 6 digits)"
+              onchange="fillRegForm()">
             </div>
+            <p id ="r_usname" class="small_desc"></p>
             <div class="input-group mb-2"> 
-              <input id="us_pass" type="password" name="password_register" class="form-control input_pass" placeholder="Password">
+              <input id="us_pass" type="password" name="password_register" class="form-control input_pass" placeholder="Password"  onchange="fillRegForm()">
             </div>
+            <p id="r_pass" class="small_desc"></p>
             <div class="input-group mb-2">
-              <input id="us_pass2" type="password" name="repassword_register" class="form-control input_pass" onblur="confirmPass()" placeholder="Confirm Password">
+              <input id="us_pass2" type="password" name="repassword_register" class="form-control input_pass" placeholder="Confirm Password" onchange="fillRegForm()">
             </div>
-            <span id="hidden_m"></span>
+            <p id="r_re_pass" class="small_desc"></p>
             <div class="d-flex justify-content-center mt-3 login_container">
-              <button type="submit" id="register" name="submit" class="btn login_btn">Register</button>
+              <button type="submit" id="register_btn" name="submit" class="btn login_btn">Register</button>
             </div>
           </form>
         </div>
@@ -101,13 +108,9 @@
       </div>
     </div>
   </div>
-
+ <!--************** Register part ends *****************-->
   
-
-  
-
-
-  <!-- category list for register user -->
+ <!--************** category list for register starts *****************-->
   <div id="reg_category" class="container h-100" hidden>
     
     <div class="d-flex justify-content-center h-100">
@@ -210,59 +213,69 @@
     </div>
  </div>
 
- <!-- modal for users -->
- <div id="modal_user" hidden>
-    <div id="modal_back"></div>
-   <form id="modal_content" method="GET" action="#">
-     <div id="modal_header">
-       Category List
-     </div>  
-     <div id="modal_middle">
-       <p>You choose <span id="modal_number">0</span> categories</p>
-       <p>Creating your category list</p>
-       <div class="text-center">
-         <div id="spin">
-           <div class="spinner-border text-danger" role="status"></div>
+  <!-- modal for users -->
+  <div id="modal_user" hidden>
+      <div id="modal_back"></div>
+    <form id="modal_content" method="GET" action="#">
+      <div id="modal_header">
+        Category List
+      </div>  
+      <div id="modal_middle">
+        <p>You choose <span id="modal_number">0</span> categories</p>
+        <p>Creating your category list</p>
+        <div class="text-center">
+          <div id="spin">
+            <div class="spinner-border text-danger" role="status"></div>
+          </div>
         </div>
-       </div>
 
-     </div>
-     <div id="modal_botton" class="d-flex justify-content-center mt-3 login_container">
-      <button type="submit" id="save" name="submit" class="btn login_btn">We are ready!</button>
-    </form>
-
-  </div>
+      </div>
+      <div id="modal_botton" class="d-flex justify-content-center mt-3 login_container">
+        <button type="submit" id="save" name="submit" class="btn login_btn">We are ready!</button>
+      </form>
+    </div>
+    <!-- modal for users -->
 </div>
-  
+ <!--************** category list for register ends *****************-->
 
 
-  <!-- shopping screen -->
-  <div id="shopping_screen" hidden>
-    <nav id="top_nav" class="navbar navbar-dark bg-dark fixed-top">
+ <!--************** shopping screen starts *****************-->
+  <div id="shopping_screen" class="container h-100" hidden>
+    <nav id="top_nav" class="navbar navbar-dark fixed-top">
       <!-- <nav id="top_nav" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"> -->
       <div id="menu_content" class="container">
         <div id="shop_logo">
-          <a class="navbar-brand" href="#"><img src="image/new_logo.png"></a>
+          <a class="navbar-brand" href="#"><img class="logo_shop" src="image/logo_white.png"></a>
         </div>
 
         <div id="menu_right">
           <div id="search_area" class="input-group rounded">
             <button id="search-button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#searchResponsive"
             aria-controls="searchResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <i id="search_top" class="fas fa-search"></i>
+            <i id="search_top" class="fas fa-search fa-lg"></i>
             </button>
           </div>
-          <div id="cart_logo">
+          <!-- <div id="cart_logo">
             <a id="link_cart"><i id="shopping" class="fas fa-shopping-cart"></i></a>
+          </div> -->
+          <div id="night_mode" onclick="iconChange()">
+            <i id="svgimage" class="fas fa-sun fa-2x"></i>
           </div>
           
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+          <button id="dropnav" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
             aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
         </div>
+        <div class="collapse navbar-collapse" id="searchResponsive">
+          <div id="search_check" class="navbar-nav">
+            <input id="search_hidden" type="search" onclick="searchBox()" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" value=""/>
+            <i id ="s_icon" class="fas fa-search"></i>
+          </div>
+        </div>
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav" onclick="closeMenu()">
             <li class="nav-item active">
               <a class="nav-link" href="#">Home</a>
             </li>
@@ -273,115 +286,26 @@
               <a class="nav-link" href="#">About us</a>
             </li>
             <li class="nav-item">
-            <a id="logoutbutton">logout</a>
+            <a id="logoutbutton" href="#">logout</a>
             </li>
           </ul>
         </div>
 
-        <div class="collapse navbar-collapse" id="searchResponsive">
-          <div id="search_check" class="navbar-nav">
-            <input id="search_hidden" type="search" onclick="searchBox()" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" value=""/>
-            <i id ="s_icon" class="fas fa-search"></i>
-          </div>
-            
-        </div>
+      
 
       </div>
     </nav>
-
-
     <!-- Page Content -->
     <div id="shop_content" class="container">
       <!-- Page Features -->
-      <div class="row text-center">
-
-        <div class="col-xs-2 col-sm-2 col-md-2">
-          <a class="shop_product">
-          <img class="card-img-top" src="" alt=""></a>
-          <div class="card-body">
-            <h4 class="card-title"></h4>
-            <p class="card-text"></p>
-          </div>
-        </div>
-
-        <!-- <div class="col-xs-2 col-sm-2 col-md-2">
-          <a class="shop_product"><img class="card-img-top" src="image/pro1.jpg" alt="1"></a>
-          <div class="card-body">
-            <h4 class="card-title">Product1</h4>
-            <p class="card-text">$150</p>
-          </div>
-        </div> 
-
-         <div class="col-xs-2 col-sm-2 col-md-2">
-          <a class="shop_product"><img class="card-img-top" src="image/pro2.jpg" alt="2"></a>
-          <div class="card-body">
-            <h4 class="card-title">Product2</h4>
-            <p class="card-text">$80</p>
-          </div>
-        </div>
-
-        <div class="col-xs-2 col-sm-2 col-md-2">
-          <a class="shop_product"><img class="card-img-top" src="image/pro3.jpg" alt="3"></a>
-          <div class="card-body">
-            <h4 class="card-title">Product3</h4>
-            <p class="card-text">$300</p>
-          </div>
-        </div>
-
-        <div class="col-xs-2 col-sm-2 col-md-2">
-          <a class="shop_product"><img class="card-img-top" src="image/pro4.jpg" alt="4"></a>
-          <div class="card-body">
-            <h4 class="card-title">Product4</h4>
-            <p class="card-text">$20</p>
-          </div>
-        </div>
-
-        <div class="col-xs-2 col-sm-2 col-md-2">
-          <a class="shop_product"><img class="card-img-top" src="image/pro5.jpg" alt="5"></a>
-          <div class="card-body">
-            <h4 class="card-title">Product4</h4>
-            <p class="card-text">$20</p>
-          </div>
-        </div>
-
-        <div class="col-xs-2 col-sm-2 col-md-2">
-          <a class="shop_product"><img class="card-img-top" src="image/pro6.jpg" alt="6"></a>
-          <div class="card-body">
-            <h4 class="card-title">Product4</h4>
-            <p class="card-text">$20</p>
-          </div>
-        </div>
-
-        <div class="col-xs-2 col-sm-2 col-md-2">
-          <a class="shop_product"><img class="card-img-top" src="image/pro7.jpg" alt="7"></a>
-          <div class="card-body">
-            <h4 class="card-title">Product4</h4>
-            <p class="card-text">$20</p>
-          </div>
-        </div>
-
-        <div class="col-xs-2 col-sm-2 col-md-2">
-          <a class="shop_product"><img class="card-img-top" src="image/pro8.jpg" alt="8"></a>
-          <div class="card-body">
-            <h4 class="card-title">Product4</h4>
-            <p class="card-text">$20</p>
-          </div>
-        </div> -->
-
+      <div id="product_info" class="row text-center">
       </div>
-
     </div>
-
   </div>
+ <!--************** shopping screen ends *****************-->
 
-  <!-- categry list setting screen -->
-    <div id="categylist" hidden>
-      <nav id="top_nav" class="navbar navbar-dark bg-dark fixed-top">
-        <nav id="top_nav" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div id="menu_content" class="container">
-          <a id="back_home">← Back</a>
-        </div>
-      </nav>
+ <!--************** Update categylist starts *****************-->
+    <div id="categylist" class="container h-100" hidden>
      
         <div id="category_area" class="user_card4">
           <form id ="update_cat_form" action="#" method="POST">
@@ -468,15 +392,17 @@
             <div class="d-flex justify-content-center mt-3 login_container">
               <button type="submit" id="update" name="submit" class="btn login_btn">Update</button>
             </div>
+            <div id="menu_content" class="container">
+              <a id="back_home">← Back</a>
+            </div>
           </form>
         </div>
+   <!--************** Update categylist starts *****************-->     
        
-       
-    
-
     </div>
 
   <script src="js/app.js" defer></script>
+  <script src="js/function.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -484,42 +410,42 @@
   <script>
 
     // used to confirm each passwords are same
-     function confirmPass(){
-      var res;
-    if (document.getElementById("us_pass").value == document.getElementById("us_pass2").value){
-        res = true;
-        hidden_m.innerHTML = "";
-    }else{
-        res = false;
-        hidden_m.innerHTML = "Passwords are not matched.";
+    //  function confirmPass(){
+    //   var res;
+    // if (document.getElementById("us_pass").value == document.getElementById("us_pass2").value){
+    //     res = true;
+    //     hidden_m.innerHTML = "";
+    // }else{
+    //     res = false;
+    //     hidden_m.innerHTML = "Passwords are not matched.";
   
-    }
+    // }
          
-     }
+    //  }
 
       // for the link
-      function backtoPage() {
-        document.getElementById('reg_category').setAttribute("hidden", "hidden");
-        document.getElementById('register_content').removeAttribute("hidden");
-    }
+    //   function backtoPage() {
+    //     document.getElementById('reg_category').setAttribute("hidden", "hidden");
+    //     document.getElementById('register_content').removeAttribute("hidden");
+    // }
 
-     function goRegPage(){
-      document.getElementById('signin_content').setAttribute("hidden", "hidden");
-        document.getElementById('register_content').removeAttribute("hidden");
-     }
+    //  function goRegPage(){
+    //   document.getElementById('signin_content').setAttribute("hidden", "hidden");
+    //     document.getElementById('register_content').removeAttribute("hidden");
+    //  }
 
-     function goLogPage(){
-      document.getElementById('register_content').setAttribute("hidden", "hidden");
-        document.getElementById('signin_content').removeAttribute("hidden");
-     }
+    //  function goLogPage(){
+    //   document.getElementById('register_content').setAttribute("hidden", "hidden");
+    //     document.getElementById('signin_content').removeAttribute("hidden");
+    //  }
 
-    function searchBox(){
-      var s = document.getElementById('search_hidden');
-      s.value = '     ';
-      var len = s.value.length;
-      s.focus();
-      s.setSelectionRange(len, len);
-    }
+    // function searchBox(){
+    //   var s = document.getElementById('search_hidden');
+    //   s.value = '     ';
+    //   var len = s.value.length;
+    //   s.focus();
+    //   s.setSelectionRange(len, len);
+    // }
 
     
 

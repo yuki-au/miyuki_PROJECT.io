@@ -10,7 +10,8 @@
 
 
         private $user_id = 0;
-        private $cat_id = 0;
+        // private $l_user_id = 0;
+        // private $cat_id = 0;
         private $category_id = 0;
         private $cart_id = 0;
         private $product_info = Array();
@@ -75,20 +76,20 @@
         // Login part starts 
         //*****************************************************
         
-        public function login($lu) {
+        public function login($u) {
             date_default_timezone_set('Australia/Brisbane');
             $this->request_datetime = date("d-m-Y H:i:s");
 
-            $this->login_user_id = $lu;    
-            $this->count_request ++ ;
+            $this->user_id = $u;    
+            $this->count_request ++;
             // ↑　used to count how many times user access
             
         }
         
         // used to retrieve last user id
-        public function returnLoginUser() {
-            return $this->login_user_id;
-        }
+        // public function returnLoginUser() {
+        //     return $this->user_id;
+        // }
 
         //*****************************************************
         // Login part ends 
@@ -108,21 +109,20 @@
             return $this->user_id;
         }
 
-        // comes from createcategory phase
-        public function categorylist($c){
-            $this->cat_id = $c;    
-        }
+        // // comes from createcategory phase
+        // public function categorylist($c){
+        //     $this->cat_id = $c;    
+        // }
 
-        // return category information
-        public function returnCat() {
-            return $this->cat_id;
-        }
+        // // return category information
+        // public function returnCat() {
+        //     return $this->cat_id;
+        // }
 
         //*****************************************************
         // Register part ends 
         //*****************************************************
-
-
+        
         //  updated catefory information
         public function updatelist($n_cat){
             $this->category_id = $n_cat; 
@@ -163,15 +163,13 @@
         //*****************************************************
 
         public function isLoggedIn() {
-            if($this->user_id === 0) {
+            if($this->user_id == 0) {
+                echo("not logged in");
                 return false;
             } else {
+                echo("logged in");
                 return true;
             }
-        }
-
-        public function logout() {
-            $this->user_id = 0;
         }
     }
 ?>

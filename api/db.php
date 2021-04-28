@@ -14,17 +14,17 @@
     //*****************************************************
     // Login part starts(POST)
     //*****************************************************
-    function loginAccount($lu, $lp) {
+    function loginAccount($u, $lp) {
         $sql = "SELECT * FROM user WHERE username = :username AND password = :pass";
         $stmt = $this->dbconn->prepare($sql);
-        $stmt->bindParam(':username', $lu, PDO::PARAM_STR);
+        $stmt->bindParam(':username', $u, PDO::PARAM_STR);
         $stmt->bindParam(':pass', $lp, PDO::PARAM_STR);
         $stmt->execute();
-        $rows = $stmt->fetchAll();
+       
     
-        if($stmt->rowCount() ) {
+        if($stmt->rowCount() > 0) {
                 // user exist     
-                return true; 
+                return $u; 
 
             } else {
                 
@@ -269,19 +269,21 @@
 
    //*************************************************
    // Displaying products by category list starts(GET)
+   // **Comes form Login part!!   
    //**************************************************
 
         function showProducts($u) {
-            $sql = "SELECT product.productID, product.productName, product.categoryID, 
-            category.categoryID FROM product JOIN category 
+            $sql = "SELECT product.productPrice,product.productName, product.productImg
+            FROM product JOIN category 
             ON product.categoryID = category.categoryID 
             RIGHT JOIN usercategory ON category.categoryID = usercategory.categoryID WHERE userID = :us";
             $stmt = $this->dbconn->prepare($sql);
             $stmt->bindParam(':us', $u, PDO::PARAM_INT);
             $res = $stmt->execute();
             $rows = $stmt->fetchAll();
-           
-            if($res === true) {   
+            
+            if($res === true) { 
+
                 return $rows;
             } else {
                 return false;
@@ -297,21 +299,21 @@
     // Calling category list created(GET)
     //***********************************************
 
-    function callCatlist($u, $c) {
-        // $sql = "SELECT product.productID, product.productName, product.categoryID, 
-        // category.categoryID FROM product JOIN category 
-        // ON product.categoryID = category.categoryID 
-        // RIGHT JOIN usercategory ON category.categoryID = usercategory.categoryID WHERE userID = :us";
-        // $stmt = $this->dbconn->prepare($sql);
-        // $stmt->bindParam(':us', $cats, PDO::PARAM_INT);
-        // $res = $stmt->execute();
-       
-        // if($res === true) {  
-            
-        //     return true;
-        // } else {
-        //     return false;
-        // }
+    function callCatlist($u) {
+        $sql = "SELECT category.categoryID, category.categoryName FROM category 
+        JOIN usercategory ON category.categoryID = usercategory.categoryID WHERE userID = :us";
+        $stmt = $this->dbconn->prepare($sql);
+        $stmt->bindParam(':us', $u, PDO::PARAM_INT);
+        $res = $stmt->execute();
+        $rows = $stmt->fetchAll();
+           
+        if($res === true) {  
+            print_r($rows); 
+            return $rows;
+        } else {
+            return false;
+        }
+
     }
     
    

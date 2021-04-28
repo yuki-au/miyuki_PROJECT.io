@@ -6,14 +6,19 @@ document.getElementById('update_cat_form').addEventListener('submit', function(e
 // document.getElementById('getOrdersinfo').addEventListener('click', function(e) {getOrdersinfo(e)});
 document.getElementById('link_catlist').addEventListener('click', function(e) {goCatlist(e)});
 document.getElementById('modal_content').addEventListener('submit', function(e) {showProductinfo(e)});
+document.getElementById('logoutbutton').addEventListener('click', function(e) {fetchlogout(e)});
+
+
 
 //*****************************************************
-// Login part starts(POST)
+//1.  Login part starts(POST) 
 //*****************************************************
 function fetchlogin(evt) {
+    
     evt.preventDefault();
     var fd = new FormData(loginform);
-    
+    var p_name="";
+
     fetch('http://localhost/match/api/api.php?action=loginmatch',
     {
         method: 'POST',
@@ -25,21 +30,53 @@ function fetchlogin(evt) {
             alert("Error");
             return;
         }else if (headers.status == 200) {
-            console.log('you return 200!!!');
-            document.getElementById('signin_content').setAttribute("hidden", "hidden");
-            document.getElementById('shopping_screen').removeAttribute("hidden");
-            return;
-        }
-    })
-    .catch(error => console.log(error));
-        }
+             
+            return fetch('http://localhost/match/api/api.php?action=showproduct', 
+                {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                .then(function (headers) {
+                    if (headers.status == 400) {
+                        alert('Can not get user data');
+                        return;
+                    }else if (headers.status == 200) {
+
+                        document.getElementById('signin_content').setAttribute("hidden", "hidden");
+                        document.getElementById('shopping_screen').removeAttribute("hidden");
+                        
+                        headers.json().then(function(body){
+                            
+                            console.log(JSON.stringify(body));
+                            body.forEach((item) => {
+
+                                p_name +=  '<div class="col-xs-2">'
+                                           +"<a>"+'<img src='+ '"'+item.productImg +'"'+'alt='+item.productName+">"+"</a>"
+                                            +'<h4 class="card-title">' + item.productName +"</h4>" 
+                                            +'<p class="card-text">' + item.productPrice + "</p>"
+                                           +"</div>";
+                               
+                            })
+           
+                            product_info.innerHTML = p_name;
+                            
+                            })
+                        }   
+                    })
+                 }
+            })
+            .catch(error => console.log(error));
+            }
+
+
+        
 
 //*****************************************************
 // Login part ends
 //*****************************************************
 
 //*****************************************************
-// Register part1 check & create user info starts(POST)
+//2.  Register part1 check & create user info starts(POST)
 //*****************************************************
     function registerCheck(evt) {
     evt.preventDefault();
@@ -71,7 +108,7 @@ function fetchlogin(evt) {
     // Register part1 check & create user info ends
     //**********************************************
    //***************************************************
-    // Register part2 Creating category list starts(POST)
+    //3. Register part2 Creating category list starts(POST)
     //***************************************************
      
     function categoryList(evt){
@@ -98,7 +135,7 @@ function fetchlogin(evt) {
 
                 // document.getElementById('reg_category').setAttribute("hidden", "hidden");
                 // document.getElementById('shopping_screen').removeAttribute("hidden");
-                
+            
 
                 document.getElementById('modal_user').removeAttribute("hidden");
                 document.getElementById('modal_number').innerHTML = items.length;
@@ -107,19 +144,12 @@ function fetchlogin(evt) {
               })
     }
 
-    // categoryList(testFunc);
-
-
-    // function testFunc(){
-    //     console.log('seccessful');
-    // }
-
    //**********************************************
-    // Register part2 Creating category list ends 
-    //*********************************************
+   // Register part2 Creating category list ends 
+   //*********************************************
   
   //********************************************
-  // Update user category list starts (POST)
+  //4. Update user category list starts (POST)
   //********************************************
 
     function updateCatList(evt) {
@@ -141,7 +171,7 @@ function fetchlogin(evt) {
                alert('Error');
                 return;
               }else if (headers.status == 200) {
-
+        
                return;
                 }
              })
@@ -150,13 +180,9 @@ function fetchlogin(evt) {
   //********************************************
   // Update user category list ends 
   //********************************************
-
-
    //********************************************
-    // Add cart starts (POST)
+    //5. Add cart starts (POST)
     //********************************************
-
-  
     function addCart(evt) {
         evt.preventDefault();
         var fd = new FormData();
@@ -184,7 +210,7 @@ function fetchlogin(evt) {
     //********************************************
 
      //********************************************
-    // Remove product info in a cart starts (POST)
+    //6. Remove product info in a cart starts (POST)
     //********************************************
 
     function removeProduct(evt) {
@@ -218,7 +244,7 @@ function fetchlogin(evt) {
 
 
     //******************************************
-    // Managing Product information starts(GET)
+    //1. Managing Product information starts(GET)
     //******************************************   
 
     function getOrdersinfo(evt) {
@@ -243,9 +269,9 @@ function fetchlogin(evt) {
      // Managing Product information ends 
     //************************************* 
 
-   //**************************************************
-   // Displaying products by category list starts(GET)
-  //***************************************************
+    //**************************************************
+    //2.  Displaying products by category list starts(GET)
+    //***************************************************
 
     function showProductinfo(evt) {
         evt.preventDefault();
@@ -263,18 +289,24 @@ function fetchlogin(evt) {
                 document.getElementById('modal_user').setAttribute("hidden", "hidden");
                 document.getElementById('reg_category').setAttribute("hidden", "hidden");
                 document.getElementById('shopping_screen').removeAttribute("hidden");
+     
+                headers.json().then(function(body){
+                            
+                    console.log(JSON.stringify(body));
+                    body.forEach((item) => {
 
-                // For showing images
-                // rows.forEach(item => items.push(item.value));
-                // var imgfrom = img.src;
-                // var imgtitle = img.title;
-                // var imgdesc = img.alt;
+                        p_name +=  '<div class="col-xs-2">'
+                                   +"<a>"+'<img src='+ '"'+item.productImg +'"'+'alt='+item.productName+">"+"</a>"
+                                    +'<h4 class="card-title">' + item.productName +"</h4>" 
+                                    +'<p class="card-text">' + item.productPrice + "</p>"
+                                   +"</div>";
+                       
+                    })
+   
+                    product_info.innerHTML = p_name;
+                    
+                    })
 
-                // zoomimg.src = imgfrom;
-                // test.innerHTML = imgtitle;
-                // desc.innerHTML = imgdesc;
-
-                return;
                 }
             })
     }
@@ -283,12 +315,13 @@ function fetchlogin(evt) {
     // Displaying products by category list ends
     //*******************************************
 
-  //*************************************
- // Calling category list created(GET)
-  //************************************
+    //*************************************
+    //3. Calling category list created(GET)
+    //************************************
 
   function goCatlist(evt) {
-    fetch('http://localhost/match/app/api.php?action=callcatlist', 
+    evt.preventDefault();
+    fetch('http://localhost/match/api/api.php?action=callcatlist', 
     {     
         method: 'GET',
         credentials: 'include'
@@ -304,54 +337,66 @@ function fetchlogin(evt) {
         })
 }
 
-//*******************************************
-// Displaying products by category list ends
-//*******************************************
+    //*******************************************
+    // Displaying products by category list ends
+    //*******************************************
 
 
     //**********************************
-    // checking loggedin starts(GET)
+    //4. checking loggedin starts(GET)
     //**********************************
-    function checkloggedin(evt) {
-    fetch('http://localhost/match/app/api.php?action=isLoggedin', 
+    window.addEventListener('DOMContentLoaded', function(evt) {
+    evt.preventDefault();
+    fetch('http://localhost/match/api/api.php?action=isLoggedin', 
     {
         method: 'GET',
         credentials: 'include'
     })
     .then(function(headers) {
-        if(headers.status == 403) {
-            console.log('not logged in');
-            localStorage.removeItem('categorylist');
-            localStorage.removeItem('cart');
+
+        if(headers.status == 401) {
+            // localStorage.removeItem('categorylist');
+            document.getElementById('signin_content').removeAttribute("hidden");
+            document.getElementById('register_content').setAttribute("hidden", "hidden");
+            document.getElementById('reg_category').setAttribute("hidden", "hidden");
+            document.getElementById('modal_user').setAttribute("hidden", "hidden");
+            document.getElementById('shopping_screen').setAttribute("hidden", "hidden");
+            document.getElementById('categylist').setAttribute("hidden", "hidden");
             return;
-        }
-        headers.json().then(function(body) {
-            localStorage.setItem('csrf', body.Hash);
-        })
+            
+        }else if (headers.status == 200) {
+            console.log('loggedin');
+            return;
+                }
     })
     .catch(error => console.log(error));
-}
+})
 
     //**********************************
     // checking loggedin ends
     //**********************************
 
-     //**********************************
-    // Logout starts(GET)
+    //**********************************
+    // 5. Logout starts(GET)
     //**********************************
 
     function fetchlogout(evt) {
-    fetch('localhost/api/api.php?action=logout',
+    evt.preventDefault();
+    fetch('http://localhost/match/api/api.php?action=logout',
         {
             method: 'GET',
             credentials: 'include'
         })
         .then(function (headers) {
-            if (headers.status != 200) {
-                console.log('logout failed Server-Side, but make client login again');
+            if(headers.status == 200) {
+                document.getElementById('signin_content').removeAttribute("hidden");
+                document.getElementById('register_content').setAttribute("hidden", "hidden");
+                document.getElementById('reg_category').setAttribute("hidden", "hidden");
+                document.getElementById('modal_user').setAttribute("hidden", "hidden");
+                document.getElementById('shopping_screen').setAttribute("hidden", "hidden");
+                document.getElementById('categylist').setAttribute("hidden", "hidden");
+                return;
             }
-            localStorage.removeItem('csrf');
-            localStorage.removeItem('uname');
         })
         .catch(error => console.log(error));
 }

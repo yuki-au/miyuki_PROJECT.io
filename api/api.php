@@ -53,8 +53,6 @@ if(strpos($request->headers->get('referer'),'localhost')){
    
         if($request->getMethod() == 'POST') {   
 
-        //    echo $request->headers->get('origin');
-
             //*****************************************************
             // Login part starts(POST)
             //*****************************************************
@@ -73,16 +71,10 @@ if(strpos($request->headers->get('referer'),'localhost')){
                             echo('res false1'); 
                             $response->setStatusCode(400);
                         } else{
-                        
                             
-                            
-                            // login time is recorded in se.php
-
+                            $response->setContent(json_encode($res));
                             $session->get('sessionObj')->login($res, $request->getClientIp(),$session->getId());
                             $response->setStatusCode(200);
-                            $response->setContent(json_encode($res));
-                            print_r ($session->get('sessionObj')->returnLoginUser());
-                        
                         }
 
                         } 
@@ -118,8 +110,8 @@ if(strpos($request->headers->get('referer'),'localhost')){
                                     $date = date("d-m-Y H:i:s");
                                 
                                     $session->get('sessionObj')->register($res, $request->getClientIp(), $session->getId(), $date);
-                                    $response->setStatusCode(200);
                                     $response->setContent(json_encode($res));
+                                    $response->setStatusCode(200);
                                 
                                 }
                             
@@ -143,15 +135,15 @@ if(strpos($request->headers->get('referer'),'localhost')){
                         // creating list is fail
                         $response->setStatusCode(400);
                     } else {
-                        $session->get('sessionObj')->categorylist($res);
+                      
                         $response->setStatusCode(200);
-                        $response->setContent(json_encode($res));
+                        // $session->get('sessionObj')->categorylist($res);
+                        // $response->setContent(json_encode($res));
+                        // print_r($session->get('sessionObj')->returnCat());
+                       
                     }
 
-                } else {
-                    echo('error, but might has values');
-                    $response->setStatusCode(400);
-                }          
+                }        
             }
 
             //**********************************************
@@ -236,7 +228,6 @@ if(strpos($request->headers->get('referer'),'localhost')){
         }
             
 
-        
         elseif($request->getMethod() == 'GET') {  
 
             //******************************************
@@ -259,19 +250,19 @@ if(strpos($request->headers->get('referer'),'localhost')){
             //************************************* 
 
             //**********************************************
-        // Displaying products by category list starts(GET)
-        //***********************************************
+            // Displaying products by category list starts(GET)
+            //***********************************************
             elseif($request->query->getAlpha('action') == 'showproduct') {
         
                 $res = $sqsdb->showProducts($session->get('sessionObj')->returnUser());
                 
-                if ($res == true) {
-                    $session->get('sessionObj')->showProduct($res);
-                        $response->setStatusCode(200);
-                        $response->setContent(json_encode($res));
-                } else {
-                    echo('fail to show');
+                if ($res == false) {
+
                     $response->setStatusCode(400);
+                } else {
+                    
+                   $response->setContent(json_encode($res));
+                   $response->setStatusCode(200);
                 }
             }
 
@@ -284,16 +275,28 @@ if(strpos($request->headers->get('referer'),'localhost')){
             //***********************************************
             
             elseif($request->query->getAlpha('action') == 'callcatlist') {
-            
-                $rows = $sqsdb->callCatlist($session->get('sessionObj')->returnUser(),
-                $session->get('sessionObj')->returnCat());
 
-                if ($rows == true) {
-                    $response->setStatusCode(200);
-                    $response->setContent($rows); 
+                $res = $sqsdb->callCatlist($session->get('sessionObj')->returnUser());
+                 
+                if($res == false) {
+                    // Updating category list fail
+                    $response->setStatusCode(400);
                 } else {
-                    $response->setStatusCode(203);
+                   
+                    $response->setStatusCode(200);
                 }
+            
+                // $res = $sqsdb->callCatlist($session->get('sessionObj')->returnUser());
+                 
+                // if ($res == true) {
+                //     $session->get('sessionObj')->showProduct($res);
+                     
+                //     $response->setStatusCode(200);
+                //     $response->setContent(json_encode($res));
+                //     echo $res;
+                // } else {
+                //     $response->setStatusCode(400);
+                // }
             }
 
             //************************************
@@ -307,7 +310,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
                 $check = $session->get('sessionObj')->isLoggedIn();
 
                 if ($check == true) {
-                    $response->setContent($session->get('sessionObj')->returnUser());
+                  
                     $response->setStatusCode(200);
                 }  else {
                     $response->setStatusCode(401);   
@@ -325,8 +328,9 @@ if(strpos($request->headers->get('referer'),'localhost')){
             //**********************************
 
             elseif($request->query->getAlpha('action') == 'logout') {
-                $session->get('sessionObj')->logout();
-                $response->setStatusCode(200);     
+                $session->clear();
+                $session->invalidate();
+                $response->setStatusCode(200);  
             }
 
             //**********************************

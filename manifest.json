@@ -1,0 +1,15 @@
+{
+    "name":"Match",
+    "short_name":"Match",
+    "description":"shoppping website",
+    "lang":"en",
+    "start_url":"/",
+    "display":"fullscreen",
+    "default_icon":[
+        {
+            "src":"image/formlogo.png"
+        }
+
+    ]
+
+}
