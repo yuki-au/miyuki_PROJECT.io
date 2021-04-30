@@ -15,7 +15,6 @@ document.getElementById('logoutbutton').addEventListener('click', function(e) {f
 //1.  Login part starts(POST) 
 //*****************************************************
 function fetchlogin(evt) {
-    
     evt.preventDefault();
     var fd = new FormData(loginform);
     var p_name="";
@@ -40,12 +39,14 @@ function fetchlogin(evt) {
                 .then(function (headers) {
                     if (headers.status == 400) {
                         alert('Can not get user data');
+                        
                         return;
                     }else if (headers.status == 200) {
 
+                        
                         document.getElementById('signin_content').setAttribute("hidden", "hidden");
                         document.getElementById('shopping_screen').removeAttribute("hidden");
-                        
+                      
                         headers.json().then(function(body){
                             
                             body.forEach((item) => {
@@ -57,7 +58,8 @@ function fetchlogin(evt) {
                                            +"</div>";
                                
                             })
-           
+                            
+                            
                             product_info.innerHTML = p_name;
                             
                             })
@@ -90,10 +92,12 @@ function fetchlogin(evt) {
     })
     .then(function (headers) {
         if (headers.status == 400) {
+           
             alert("Error");
             return;
         }else if (headers.status == 200) {
             // user does not exist
+           
             console.log('you return 200!!!');
             document.getElementById('register_content').setAttribute("hidden", "hidden");
             document.getElementById('reg_category').removeAttribute("hidden");
@@ -115,11 +119,12 @@ function fetchlogin(evt) {
     // console.log(document.querySelectorAll('input[name="cat[]"]:checked'));
     var categories = document.querySelectorAll('input[name="cat[]"]:checked');
     var items = Array();
+    
     categories.forEach(item => items.push(item.value));
+   
+
     var fd = new FormData();
     fd.append('categories', items);
-    
-
     fetch('http://localhost/match/api/api.php?action=createcate',
     {
         method: 'POST',
@@ -129,9 +134,11 @@ function fetchlogin(evt) {
     .then(function (headers) {
              if (headers.status == 400) {
                 alert('Error');
+                localStorage.removeItem('cat_item');
                  return;
                }else if (headers.status == 200) {
-
+               
+                localStorage.setItem('cat_item', JSON.stringify(items));
                 document.getElementById('modal_user').removeAttribute("hidden");
                 document.getElementById('modal_number').innerHTML = items.length;
                 return;
@@ -268,6 +275,7 @@ function fetchlogin(evt) {
 
     function showProductinfo(evt) {
         evt.preventDefault();
+        var icon = document.getElementById('svgimage');
         var p_name="";
         fetch('http://localhost/match/api/api.php?action=showproduct', 
         {
@@ -277,6 +285,8 @@ function fetchlogin(evt) {
         .then(function (headers) {
             if (headers.status == 400) {
                 alert('Error');
+                localStorage.removeItem('theme');
+                localStorage.removeItem('proname');
                 return;
             }else if (headers.status == 200) {
             
@@ -284,10 +294,10 @@ function fetchlogin(evt) {
                 document.getElementById('reg_category').setAttribute("hidden", "hidden");
                 document.getElementById('shopping_screen').removeAttribute("hidden");
                 document.getElementById('categylist').setAttribute("hidden", "hidden");
-     
+
                 headers.json().then(function(body){
+
                             
-                    console.log(JSON.stringify(body));
                     body.forEach((item) => {
 
                         p_name +=  '<div class="col-xs-2">'
@@ -295,9 +305,14 @@ function fetchlogin(evt) {
                                     +'<h4 class="card-title">' + item.productName +"</h4>" 
                                     +'<p class="card-text">' + item.productPrice + "</p>"
                                    +"</div>";
+
+                        
                        
                     })
    
+                    localStorage.setItem('theme', icon.className);
+                    localStorage.setItem('proname',JSON.stringify(body));
+                   
                     product_info.innerHTML = p_name;
                     
                     })
@@ -346,59 +361,74 @@ function fetchlogin(evt) {
             document.getElementById('shopping_screen').setAttribute("hidden", "hidden");
 
               headers.json().then(function(body){
-             
+        
                 body.forEach((item) => {
                 
-                         if(item.categoryID[i] == cat1.getAttribute('value')){
+                         if(item.categoryID == cat1.getAttribute('value')){
                             cat1.setAttribute("checked", true);
+                           
                          }else{
                             cat1.removeAttribute("checked");
+                            
                          }
 
-                         if(item.categoryID[i]== cat2.getAttribute('value')){
+                         if(item.categoryID == cat2.getAttribute('value')){
                             cat2.setAttribute("checked", true);
+                            
                          }else{
                             cat2.removeAttribute("checked");
+                            
                          }
 
-                         if(item.categoryID[i] ==  cat3.getAttribute('value')){
+                         if(item.categoryID ==  cat3.getAttribute('value')){
                             cat3.setAttribute("checked", true);
+                            
                          }else{
                             cat3.removeAttribute("checked");
+                            
                          }
 
-                         if(item.categoryID[i] ==  cat4.getAttribute('value')){
+                         if(item.categoryID ==  cat4.getAttribute('value')){
                             cat4.setAttribute("checked", true);
+                            
                          }else{
                             cat4.removeAttribute("checked");
+                            
                          }
 
-                         if(item.categoryID[i] ==  cat5.getAttribute('value')){
+                         if(item.categoryID ==  cat5.getAttribute('value')){
                             cat5.setAttribute("checked", true);
+                            
                          }else{
                             cat5.removeAttribute("checked");
+                            
                          }
 
-                         if(item.categoryID[i]==  cat6.getAttribute('value')){
+                         if(item.categoryID ==  cat6.getAttribute('value')){
                             cat6.setAttribute("checked", true);
+                            
                          }else{
                             cat6.removeAttribute("checked");
+                            
                          }
 
-                         if(item.categoryID[i]==  cat7.getAttribute('value')){
+                         if(item.categoryID ==  cat7.getAttribute('value')){
                             cat7.setAttribute("checked", true);
+                            
                          }else{
                             cat7.removeAttribute("checked");
+                           
                          }
 
-                         if(item.categoryID[i] ==  cat8.getAttribute('value')){
+                         if(item.categoryID ==  cat8.getAttribute('value')){
                             cat8.setAttribute("checked", true);
+                            
                          }else{
                             cat8.removeAttribute("checked");
+                         
                          }
 
-                        
-                    
+                 
                 })
                
                  })
@@ -426,7 +456,11 @@ function fetchlogin(evt) {
     .then(function(headers) {
 
         if(headers.status == 401) {
-            // localStorage.removeItem('categorylist');
+            localStorage.removeItem('cat_item');
+            localStorage.removeItem('theme');
+            localStorage.removeItem('proname');
+                
+
             document.getElementById('signin_content').removeAttribute("hidden");
             document.getElementById('register_content').setAttribute("hidden", "hidden");
             document.getElementById('reg_category').setAttribute("hidden", "hidden");
@@ -466,6 +500,11 @@ function fetchlogin(evt) {
                 document.getElementById('modal_user').setAttribute("hidden", "hidden");
                 document.getElementById('shopping_screen').setAttribute("hidden", "hidden");
                 document.getElementById('categylist').setAttribute("hidden", "hidden");
+
+                localStorage.removeItem('cat_item');
+                localStorage.removeItem('theme');
+                localStorage.removeItem('proname');
+  
                 return;
             }
         })
