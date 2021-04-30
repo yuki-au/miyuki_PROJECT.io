@@ -6,6 +6,7 @@ document.getElementById('update_cat_form').addEventListener('submit', function(e
 // document.getElementById('getOrdersinfo').addEventListener('click', function(e) {getOrdersinfo(e)});
 document.getElementById('link_catlist').addEventListener('click', function(e) {goCatlist(e)});
 document.getElementById('modal_content').addEventListener('submit', function(e) {showProductinfo(e)});
+document.getElementById('back_home').addEventListener('click', function(e) {showProductinfo(e)});
 document.getElementById('logoutbutton').addEventListener('click', function(e) {fetchlogout(e)});
 
 
@@ -47,13 +48,12 @@ function fetchlogin(evt) {
                         
                         headers.json().then(function(body){
                             
-                            console.log(JSON.stringify(body));
                             body.forEach((item) => {
 
                                 p_name +=  '<div class="col-xs-2">'
                                            +"<a>"+'<img src='+ '"'+item.productImg +'"'+'alt='+item.productName+">"+"</a>"
-                                            +'<h4 class="card-title">' + item.productName +"</h4>" 
-                                            +'<p class="card-text">' + item.productPrice + "</p>"
+                                           +'<h4 class="card-title">' + item.productName +"</h4>" 
+                                           +'<p class="card-text">' + item.productPrice + "</p>"
                                            +"</div>";
                                
                             })
@@ -82,7 +82,6 @@ function fetchlogin(evt) {
     evt.preventDefault();
 
     var fd = new FormData(registerform);
-    
     fetch('http://localhost/match/api/api.php?action=checkaccount',
     {
         method: 'POST',
@@ -132,10 +131,6 @@ function fetchlogin(evt) {
                 alert('Error');
                  return;
                }else if (headers.status == 200) {
-
-                // document.getElementById('reg_category').setAttribute("hidden", "hidden");
-                // document.getElementById('shopping_screen').removeAttribute("hidden");
-            
 
                 document.getElementById('modal_user').removeAttribute("hidden");
                 document.getElementById('modal_number').innerHTML = items.length;
@@ -240,9 +235,7 @@ function fetchlogin(evt) {
 
         // ↑ ↑ ↑  POST Method  ↑ ↑ ↑
        // ↓ ↓ ↓  Get Method ↓ ↓ ↓
-       
-
-
+   
     //******************************************
     //1. Managing Product information starts(GET)
     //******************************************   
@@ -259,7 +252,7 @@ function fetchlogin(evt) {
                 alert('Error');
                     return;
                 }else if (headers.status == 200) {
-                // put js function to show order info
+             
                 return;
                     }
                 })
@@ -275,6 +268,7 @@ function fetchlogin(evt) {
 
     function showProductinfo(evt) {
         evt.preventDefault();
+        var p_name="";
         fetch('http://localhost/match/api/api.php?action=showproduct', 
         {
             method: 'GET',
@@ -289,6 +283,7 @@ function fetchlogin(evt) {
                 document.getElementById('modal_user').setAttribute("hidden", "hidden");
                 document.getElementById('reg_category').setAttribute("hidden", "hidden");
                 document.getElementById('shopping_screen').removeAttribute("hidden");
+                document.getElementById('categylist').setAttribute("hidden", "hidden");
      
                 headers.json().then(function(body){
                             
@@ -309,6 +304,7 @@ function fetchlogin(evt) {
 
                 }
             })
+            
     }
 
     //*******************************************
@@ -328,11 +324,86 @@ function fetchlogin(evt) {
     })
     .then(function (headers) {
         if (headers.status == 400) {
-        alert('Error');
+           alert('Error');
             return;
         }else if (headers.status == 200) {
+    
            
-        return;
+
+            var cat1 = document.getElementById("check1");
+            var cat2 = document.getElementById("check2");
+            var cat3 = document.getElementById("check3");
+            var cat4 = document.getElementById("check4");
+            var cat5 = document.getElementById("check5");
+            var cat6 = document.getElementById("check6");
+            var cat7 = document.getElementById("check7");
+            var cat8 = document.getElementById("check8");
+            
+            
+            // document.getElementById("check1").setAttribute("checked", true);
+    
+            document.getElementById('categylist').removeAttribute("hidden");
+            document.getElementById('shopping_screen').setAttribute("hidden", "hidden");
+
+              headers.json().then(function(body){
+             
+                body.forEach((item) => {
+                
+                         if(item.categoryID[i] == cat1.getAttribute('value')){
+                            cat1.setAttribute("checked", true);
+                         }else{
+                            cat1.removeAttribute("checked");
+                         }
+
+                         if(item.categoryID[i]== cat2.getAttribute('value')){
+                            cat2.setAttribute("checked", true);
+                         }else{
+                            cat2.removeAttribute("checked");
+                         }
+
+                         if(item.categoryID[i] ==  cat3.getAttribute('value')){
+                            cat3.setAttribute("checked", true);
+                         }else{
+                            cat3.removeAttribute("checked");
+                         }
+
+                         if(item.categoryID[i] ==  cat4.getAttribute('value')){
+                            cat4.setAttribute("checked", true);
+                         }else{
+                            cat4.removeAttribute("checked");
+                         }
+
+                         if(item.categoryID[i] ==  cat5.getAttribute('value')){
+                            cat5.setAttribute("checked", true);
+                         }else{
+                            cat5.removeAttribute("checked");
+                         }
+
+                         if(item.categoryID[i]==  cat6.getAttribute('value')){
+                            cat6.setAttribute("checked", true);
+                         }else{
+                            cat6.removeAttribute("checked");
+                         }
+
+                         if(item.categoryID[i]==  cat7.getAttribute('value')){
+                            cat7.setAttribute("checked", true);
+                         }else{
+                            cat7.removeAttribute("checked");
+                         }
+
+                         if(item.categoryID[i] ==  cat8.getAttribute('value')){
+                            cat8.setAttribute("checked", true);
+                         }else{
+                            cat8.removeAttribute("checked");
+                         }
+
+                        
+                    
+                })
+               
+                 })
+                 
+             
             }
         })
 }

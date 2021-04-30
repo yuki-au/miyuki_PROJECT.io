@@ -195,7 +195,7 @@ h3 {
 }
 
 #back_home {
-    color: white;
+    color: gray;
     font-size: 1.4em;
 }
 
@@ -413,7 +413,7 @@ input[type="cat[]"]:checked~.label_cate>.cate_img {
     transition: .4s;
 }
 
-input[name="cat2[]"]:checked~.label_cate2>.cate_img2 {
+input[name="cat2"]:checked~.label_cate2>.cate_img2 {
     opacity: .3;
     transition: .4s;
 }
@@ -444,11 +444,11 @@ input[name="cat2[]"]:checked~.label_cate2>.cate_img2 {
 }
 
 .user_card4 {
-    height: 780px;
-    width: 360px;
-    margin: 100px auto;
-    text-align: center;
+    height: 850px;
+    width: 390px;
+    margin: 30px auto;
     background: #fffafa;
+    position: relative;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -682,13 +682,11 @@ h5 {
     
     .dark_mode .user_card,
     .dark_mode .user_card2,
-    .dark_mode #shop_content,
-    .dark_mode #shop_content,
-    .dark_mode #shoping_screen,
-    .dark_mode .row,
+    .dark_mode #shopping_screen,
+    .dark_mode .col-xs-2,
+    .dark_mode .text-center,
     .dark_mode .h-100{
         background-color: #636061!important;
-        padding: 0;
     }
     
     .dark_mode #top_nav{
@@ -698,3 +696,14 @@ h5 {
     
     /*********** dark mode ****************/
 
+#categylist {
+    margin: 0 auto;
+}
+
+.category-input {
+    display: none;
+}
+
+.c_num{
+    display: none;
+}

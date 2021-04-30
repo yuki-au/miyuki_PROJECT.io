@@ -91,7 +91,6 @@ function fillRegForm(){
 // ******************************
 //   function for link part starts
 // ******************************
-
   
     // for the link
     function backtoPage() {

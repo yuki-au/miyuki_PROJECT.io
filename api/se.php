@@ -82,7 +82,6 @@
 
             $this->user_id = $u;    
             $this->count_request ++;
-            // ↑　used to count how many times user access
             
         }
         
@@ -109,15 +108,6 @@
             return $this->user_id;
         }
 
-        // // comes from createcategory phase
-        // public function categorylist($c){
-        //     $this->cat_id = $c;    
-        // }
-
-        // // return category information
-        // public function returnCat() {
-        //     return $this->cat_id;
-        // }
 
         //*****************************************************
         // Register part ends 

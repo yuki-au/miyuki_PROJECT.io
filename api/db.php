@@ -20,11 +20,10 @@
         $stmt->bindParam(':username', $u, PDO::PARAM_STR);
         $stmt->bindParam(':pass', $lp, PDO::PARAM_STR);
         $stmt->execute();
-       
+        $rows = $stmt->fetch(PDO::FETCH_ASSOC);
     
         if($stmt->rowCount() > 0) {
-                // user exist     
-                return $u; 
+                return $rows['userID']; 
 
             } else {
                 
@@ -269,7 +268,7 @@
 
    //*************************************************
    // Displaying products by category list starts(GET)
-   // **Comes form Login part!!   
+   // **Comes form Login part& register part   
    //**************************************************
 
         function showProducts($u) {
@@ -281,7 +280,6 @@
             $stmt->bindParam(':us', $u, PDO::PARAM_INT);
             $res = $stmt->execute();
             $rows = $stmt->fetchAll();
-            
             if($res === true) { 
 
                 return $rows;
@@ -308,7 +306,6 @@
         $rows = $stmt->fetchAll();
            
         if($res === true) {  
-            print_r($rows); 
             return $rows;
         } else {
             return false;

@@ -105,12 +105,9 @@ if(strpos($request->headers->get('referer'),'localhost')){
                                     $response->setStatusCode(400);
                                 } else {
                                     // if user doesn't exist, create new user & save data in the sessin
-
-                                    date_default_timezone_set('Australia/Brisbane');
-                                    $date = date("d-m-Y H:i:s");
-                                
-                                    $session->get('sessionObj')->register($res, $request->getClientIp(), $session->getId(), $date);
-                                    $response->setContent(json_encode($res));
+                                    
+                                    // $response->setContent(json_encode($res));
+                                    $session->get('sessionObj')->register($res, $request->getClientIp(), $session->getId());
                                     $response->setStatusCode(200);
                                 
                                 }
@@ -135,7 +132,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
                         // creating list is fail
                         $response->setStatusCode(400);
                     } else {
-                      
+        
                         $response->setStatusCode(200);
                         // $session->get('sessionObj')->categorylist($res);
                         // $response->setContent(json_encode($res));
@@ -260,7 +257,6 @@ if(strpos($request->headers->get('referer'),'localhost')){
 
                     $response->setStatusCode(400);
                 } else {
-                    
                    $response->setContent(json_encode($res));
                    $response->setStatusCode(200);
                 }
@@ -279,24 +275,13 @@ if(strpos($request->headers->get('referer'),'localhost')){
                 $res = $sqsdb->callCatlist($session->get('sessionObj')->returnUser());
                  
                 if($res == false) {
-                    // Updating category list fail
+                   
                     $response->setStatusCode(400);
                 } else {
-                   
+                    $response->setContent(json_encode($res));
                     $response->setStatusCode(200);
                 }
             
-                // $res = $sqsdb->callCatlist($session->get('sessionObj')->returnUser());
-                 
-                // if ($res == true) {
-                //     $session->get('sessionObj')->showProduct($res);
-                     
-                //     $response->setStatusCode(200);
-                //     $response->setContent(json_encode($res));
-                //     echo $res;
-                // } else {
-                //     $response->setStatusCode(400);
-                // }
             }
 
             //************************************

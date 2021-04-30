@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match</title>
-    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="image/app_icon.png">
+    <meta name="theme-color" content="#ea5566"/>
+    <!-- <link rel="manifest"  href="manifest.json"/> -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
@@ -134,6 +136,7 @@
                   <p class="label_checked2">Checked</p>
                   <img src="image/cheeruful.jpg" class="cate_img2" alt="cheerful">
                 </label>
+                <span class="c_num">1</span>
                 <label class="label_check2">Cheerful</label>
               </div>
 
@@ -143,6 +146,7 @@
                   <p class="label_checked2">Checked</p>
                   <img src="image/calm.jpg" class="cate_img2" alt="cheerful">
                 </label>
+                <span class="c_num">2</span>
                 <label class="label_check2">Calm</label>
               </div>
             </div>
@@ -154,6 +158,7 @@
                   <p class="label_checked2">Checked</p>
                   <img src="image/mysterious.jpg" class="cate_img2" alt="mysterious">
                 </label>
+                <span class="c_num">3</span>
                 <label class="label_check2" for="check3">mysterious</label>
               </div>
               <div class="col custom-control custom-checkbox">
@@ -162,6 +167,7 @@
                   <p class="label_checked2">Checked</p>
                   <img src="image/Energetic.jpg" class="cate_img2" alt="energitic">
                 </label>
+                <span class="c_num">4</span>
                 <label class="label_check2" for="check4" checked>Energestic</label>
               </div>
             </div>
@@ -286,7 +292,7 @@
               <a class="nav-link" href="#">About us</a>
             </li>
             <li class="nav-item">
-            <a id="logoutbutton" href="#">logout</a>
+            <a id="logoutbutton">logout</a>
             </li>
           </ul>
         </div>
@@ -305,102 +311,109 @@
  <!--************** shopping screen ends *****************-->
 
  <!--************** Update categylist starts *****************-->
-    <div id="categylist" class="container h-100" hidden>
-     
-        <div id="category_area" class="user_card4">
-          <form id ="update_cat_form" action="#" method="POST">
-            <h3>Update your category list</h3>
-            <h5>The result of showing the items will be different, as the list has been changed.</h5>
-            
-            <div class="row">
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat2[]" id="check1" value="1">
-                <label class="label_cate2" for="check1">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/cheeruful.jpg" class="cate_img2" alt="cheerful">
-                </label>
-                <label class="label_check2">Cheerful</label>
-              </div>
 
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat2[]" id="check2" value="2">
-                <label class="label_cate2" for="check2">               
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/calm.jpg" class="cate_img2" alt="cheerful">
-                </label>
-                <label class="label_check2">Calm</label>
-              </div>
-            </div>
-  
-            <div class="row">
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat2[]" id="check3" value="3">
-                <label class="label_cate2" for="check3">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/mysterious.jpg" class="cate_img2" alt="mysterious">
-                </label>
-                <label class="label_check2" for="check3">mysterious</label>
-              </div>
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat2[]" id="check4" value="4">
-                <label class="label_cate2" for="check4">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/Energetic.jpg" class="cate_img2" alt="energitic">
-                </label>
-                <label class="label_check2" for="check4" checked>Energestic</label>
-              </div>
-            </div>
-  
-            <div class="row">
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat2[]" id="check5" value="5">
-                <label class="label_cate2" for="check5">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/peaceful.jpg" class="cate_img2" alt="energitic">
-                </label>
-                <label class="label_check2" for="check5">Peaceful</label>
-              </div>
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat2[]" id="check6" value="6">
-                <label class="label_cate2" for="check6">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/aggressive.jpg" class="cate_img2" alt="aggressive">
-                </label>
-                <label class="label_check2" for="check6">Aggressive</label>
-              </div>
-            </div>
-  
-            <div class="row">
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat2[]" id="check7" value="7">
-                <label class="label_cate2" for="check7">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/confident.jpg" class="cate_img2" alt="confident">
-                </label>
-                <label class="label_check2" for="check7">confident</label>
-              </div>
-              <div class="col custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="cat2[]" id="check8" value="8">
-                <label class="label_cate2" for="check8">
-                  <p class="label_checked2">Checked</p>
-                  <img src="image/thankful.jpg" class="cate_img2" alt="thankful">
-                </label>
-                <label class="label_check2" for="check8">Thankful</label>
-              </div>
-            </div>
-  
-            <div class="d-flex justify-content-center mt-3 login_container">
-              <button type="submit" id="update" name="submit" class="btn login_btn">Update</button>
-            </div>
-            <div id="menu_content" class="container">
-              <a id="back_home">← Back</a>
-            </div>
-          </form>
+  <div id="categylist" class="container h-100" hidden>
+    
+      <div class="d-flex justify-content-center h-100">
+        <div class="user_card3">
+        <div class="d-flex justify-content-center">
+            <div class="brand_logo_container">
+              <img src="image/formlogo.png" class="brand_logo" alt="Logo">
+             </div>
         </div>
-   <!--************** Update categylist starts *****************-->     
-       
-    </div>
+          <div id="category_area" class="d-flex justify-content-center form_container">
+            <form id="update_cat_form" action="#" method="POST">
+            <h3>Update your category list</h3>
+                
+              <div class="row">
+                <div class="col custom-control custom-checkbox">
+                  <input type="checkbox" class="category-input" name="cat2" id="check1" value="1">
+                  <label class="label_cate2" for="check1">
+                    <p class="label_checked2">Checked</p>
+                    <img src="image/cheeruful.jpg" class="cate_img2" alt="cheerful">
+                  </label>
+                  <label class="label_check2">Cheerful</label>
+                </div>
 
+                <div class="col custom-control custom-checkbox">
+                  <input type="checkbox" class="category-input" name="cat2" id="check2" value="2">
+                  <label class="label_cate2" for="check2">               
+                    <p class="label_checked2">Checked</p>
+                    <img src="image/calm.jpg" class="cate_img2" alt="cheerful">
+                  </label>
+                  <label class="label_check2">Calm</label>
+                </div>
+              </div>
+    
+              <div class="row">
+                <div class="col custom-control custom-checkbox">
+                  <input type="checkbox" class="category-input" name="cat2" id="check3" value="3">
+                  <label class="label_cate2" for="check3">
+                    <p class="label_checked2">Checked</p>
+                    <img src="image/mysterious.jpg" class="cate_img2" alt="mysterious">
+                  </label>
+                  <label class="label_check2" for="check3">mysterious</label>
+                </div>
+                <div class="col custom-control custom-checkbox">
+                  <input type="checkbox" class="category-input" name="cat2" id="check4" value="4">
+                  <label class="label_cate2" for="check4">
+                    <p class="label_checked2">Checked</p>
+                    <img src="image/Energetic.jpg" class="cate_img2" alt="energitic">
+                  </label>
+                  <label class="label_check2" for="check4" checked>Energestic</label>
+                </div>
+              </div>
+    
+              <div class="row">
+                <div class="col custom-control custom-checkbox">
+                  <input type="checkbox" class="category-input" name="cat2" id="check5" value="5">
+                  <label class="label_cate2" for="check5">
+                    <p class="label_checked2">Checked</p>
+                    <img src="image/peaceful.jpg" class="cate_img2" alt="energitic">
+                  </label>
+                  <label class="label_check2" for="check5">Peaceful</label>
+                </div>
+                <div class="col custom-control custom-checkbox">
+                  <input type="checkbox" class="category-input" name="cat2" id="check6" value="6">
+                  <label class="label_cate2" for="check6">
+                    <p class="label_checked2">Checked</p>
+                    <img src="image/aggressive.jpg" class="cate_img2" alt="aggressive">
+                  </label>
+                  <label class="label_check2" for="check6">Aggressive</label>
+                </div>
+              </div>
+    
+              <div class="row">
+                <div class="col custom-control custom-checkbox">
+                  <input type="checkbox" class="category-input" name="cat2" id="check7" value="7">
+                  <label class="label_cate2" for="check7">
+                    <p class="label_checked2">Checked</p>
+                    <img src="image/confident.jpg" class="cate_img2" alt="confident">
+                  </label>
+                  <label class="label_check2" for="check7">confident</label>
+                </div>
+                <div class="col custom-control custom-checkbox">
+                  <input type="checkbox" class="category-input" name="cat2" id="check8" value="8">
+                  <label class="label_cate2" for="check8">
+                    <p class="label_checked2">Checked</p>
+                    <img src="image/thankful.jpg" class="cate_img2" alt="thankful">
+                  </label>
+                  <label class="label_check2" for="check8">Thankful</label>
+                </div>
+              </div>
+    
+              <div class="d-flex justify-content-center mt-3 login_container">
+                <button type="submit" id="update" name="submit" class="btn login_btn">Update</button>
+              </div>
+              <div id="menu_content" class="container">
+                <a id="back_home">← Back</a>
+              </div>
+            </form>
+        </div>
+         <!--************** Update categylist starts *****************-->     
+      </div>
+    </div>
+  </div>
   <script src="js/app.js" defer></script>
   <script src="js/function.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -408,53 +421,21 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   
   <script>
+// ******************************
+// Service worker starts
+// ******************************
 
-    // used to confirm each passwords are same
-    //  function confirmPass(){
-    //   var res;
-    // if (document.getElementById("us_pass").value == document.getElementById("us_pass2").value){
-    //     res = true;
-    //     hidden_m.innerHTML = "";
-    // }else{
-    //     res = false;
-    //     hidden_m.innerHTML = "Passwords are not matched.";
-  
-    // }
-         
-    //  }
-
-      // for the link
-    //   function backtoPage() {
-    //     document.getElementById('reg_category').setAttribute("hidden", "hidden");
-    //     document.getElementById('register_content').removeAttribute("hidden");
-    // }
-
-    //  function goRegPage(){
-    //   document.getElementById('signin_content').setAttribute("hidden", "hidden");
-    //     document.getElementById('register_content').removeAttribute("hidden");
-    //  }
-
-    //  function goLogPage(){
-    //   document.getElementById('register_content').setAttribute("hidden", "hidden");
-    //     document.getElementById('signin_content').removeAttribute("hidden");
-    //  }
-
-    // function searchBox(){
-    //   var s = document.getElementById('search_hidden');
-    //   s.value = '     ';
-    //   var len = s.value.length;
-    //   s.focus();
-    //   s.setSelectionRange(len, len);
-    // }
-
-    
-
-  //   function closeImg() {
-  //   modal_user.style.visibility="hidden"; 
-  //   modal_user.style.opacity = "0";
-  // }
-
-
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('./my_service_worker.js')
+//   .then(function(reg) {
+//     console.log('Successful' + reg.scope);
+//   }).catch(function(error) {
+//     console.log('Fail' + error);
+//   });
+// }
+// ******************************
+// Service worker ends
+// ******************************
 
 </script>
 

@@ -3,13 +3,33 @@
     "short_name":"Match",
     "description":"shoppping website",
     "lang":"en",
-    "start_url":"/",
+    "start_url":".",
+    "background_color":"#ea5566",
+    "theme_color" : "#ea5566",
     "display":"fullscreen",
-    "default_icon":[
+    "icons":[
         {
-            "src":"image/formlogo.png"
+            "src":"image/icon_m3.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }, 
+        {
+            "src":"image/icon_m2.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src":"image/icon_m.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any maskable"
         }
-
-    ]
-
-}
+        ],
+        "features": [
+            "Cross Platform",
+            "fast",
+            "simple"
+          ]
+    }
