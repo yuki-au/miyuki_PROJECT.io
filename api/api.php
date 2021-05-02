@@ -53,9 +53,9 @@ if(strpos($request->headers->get('referer'),'localhost')){
    
         if($request->getMethod() == 'POST') {   
 
-            //*****************************************************
-            // Login part starts(POST)
-            //*****************************************************
+        //*****************************************************
+        //1. Login part starts(POST)
+        //*****************************************************
             if($request->query->getAlpha('action') == 'loginmatch') {
                     
 
@@ -86,7 +86,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
             //*****************************************************
 
             //****************************************************
-            // Register part1 check & create user info starts(POST)
+            //2. Register part1 check & create user info starts(POST)
             //******************************************************
 
             elseif($request->query->getAlpha('action') == 'checkaccount') {
@@ -120,7 +120,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
             // Register part1 check & create user info ends
             //*********************************************
             //***************************************************
-            // Register part2 Creating category list starts(POST)
+            //3. Register part2 Creating category list starts(POST)
             //***************************************************
 
             elseif($request->query->getAlpha('action') == 'createcate') {
@@ -147,7 +147,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
             // Register part2 Creating category list ends 
             //*********************************************
             //********************************************
-            // Update user category list starts (POST)
+            //4. Update user category list starts (POST)
             //********************************************
 
             elseif($request->query->getAlpha('action') == 'updatecat') {
@@ -172,7 +172,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
             //********************************************
 
             //********************************************
-            // Add cart starts (POST)
+            //6. Add cart starts (POST)
             //********************************************
 
             elseif($request->query->getAlpha('action') == 'addcart') {
@@ -198,7 +198,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
             //********************************************
 
             //********************************************
-            // Remove product info in a cart starts (POST)
+            //7. Remove product info in a cart starts (POST)
             //********************************************
             
             elseif($request->query->getAlpha('action') == 'removeproduct') {
@@ -227,29 +227,10 @@ if(strpos($request->headers->get('referer'),'localhost')){
 
         elseif($request->getMethod() == 'GET') {  
 
-            //******************************************
-            // Managing Product information starts(GET)
-            //******************************************   
-        
-            if($request->query->getAlpha('action') == 'getOrdersForUser') {
-                $rows = $sqsdb->getOrdersForUser($session->get('sessionObj')->returnUser());
-                if (count($rows) > 0) {
-                    $response->setStatusCode(200);
-                    $response->setContent($rows); 
-                    // save content in se.php↑
-                } else {
-                    $response->setStatusCode(203);
-                }
-            }
-
-            //*************************************
-            // Managing Product information ends 
-            //************************************* 
-
             //**********************************************
-            // Displaying products by category list starts(GET)
+            //1. Displaying products by category list starts(GET)
             //***********************************************
-            elseif($request->query->getAlpha('action') == 'showproduct') {
+            if($request->query->getAlpha('action') == 'showproduct') {
         
                 $res = $sqsdb->showProducts($session->get('sessionObj')->returnUser());
                 
@@ -267,7 +248,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
             //******************************************
 
             //**********************************************
-            // Calling category list created starts(GET)
+            //2. Calling category list created starts(GET)
             //***********************************************
             
             elseif($request->query->getAlpha('action') == 'callcatlist') {
@@ -288,7 +269,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
             // Calling category list created ends
             //************************************
             //**********************************
-            // checking loggedin starts(GET)
+            //3.  Checking loggedin starts(GET)
             //**********************************
 
             elseif ($request->query->getAlpha('action')=='isLoggedin'){
@@ -309,7 +290,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
 
             
             //**********************************
-            // Logout starts(GET)
+            //4. Logout starts(GET)
             //**********************************
 
             elseif($request->query->getAlpha('action') == 'logout') {

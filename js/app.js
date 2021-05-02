@@ -37,7 +37,7 @@ function fetchlogin(evt) {
                     credentials: 'include'
                 })
                 .then(function (headers) {
-                    if (headers.status == 400) {
+                    if (headers.status == 401) {
                         alert('Can not get user data');
                         
                         return;
@@ -91,7 +91,7 @@ function fetchlogin(evt) {
         credentials: 'include'
     })
     .then(function (headers) {
-        if (headers.status == 400) {
+        if (headers.status == 401) {
            
             alert("Error");
             return;
@@ -116,7 +116,6 @@ function fetchlogin(evt) {
      
     function categoryList(evt){
     evt.preventDefault();
-    // console.log(document.querySelectorAll('input[name="cat[]"]:checked'));
     var categories = document.querySelectorAll('input[name="cat[]"]:checked');
     var items = Array();
     
@@ -242,35 +241,9 @@ function fetchlogin(evt) {
 
         // ↑ ↑ ↑  POST Method  ↑ ↑ ↑
        // ↓ ↓ ↓  Get Method ↓ ↓ ↓
-   
-    //******************************************
-    //1. Managing Product information starts(GET)
-    //******************************************   
-
-    function getOrdersinfo(evt) {
-            evt.preventDefault();
-            fetch('http://localhost/match/api/api.php?action=getOrdersForUser', 
-            {
-                method: 'GET',
-                credentials: 'include'
-            })
-            .then(function (headers) {
-                if (headers.status == 400) {
-                alert('Error');
-                    return;
-                }else if (headers.status == 200) {
-             
-                return;
-                    }
-                })
-        }
-
-    //*************************************
-     // Managing Product information ends 
-    //************************************* 
 
     //**************************************************
-    //2.  Displaying products by category list starts(GET)
+    //1.  Displaying products by category list starts(GET)
     //***************************************************
 
     function showProductinfo(evt) {
@@ -327,7 +300,7 @@ function fetchlogin(evt) {
     //*******************************************
 
     //*************************************
-    //3. Calling category list created(GET)
+    //2. Calling category list created(GET)
     //************************************
 
   function goCatlist(evt) {
@@ -354,17 +327,15 @@ function fetchlogin(evt) {
             var cat7 = document.getElementById("check7");
             var cat8 = document.getElementById("check8");
             
-            
-            // document.getElementById("check1").setAttribute("checked", true);
     
             document.getElementById('categylist').removeAttribute("hidden");
             document.getElementById('shopping_screen').setAttribute("hidden", "hidden");
 
               headers.json().then(function(body){
-        
-                body.forEach((item) => {
-                
-                         if(item.categoryID == cat1.getAttribute('value')){
+           
+                body.forEach(item => {
+
+                         if(item.categoryID == 1){
                             cat1.setAttribute("checked", true);
                            
                          }else{
@@ -372,7 +343,7 @@ function fetchlogin(evt) {
                             
                          }
 
-                         if(item.categoryID == cat2.getAttribute('value')){
+                         if(item.categoryID ==2){
                             cat2.setAttribute("checked", true);
                             
                          }else{
@@ -380,7 +351,7 @@ function fetchlogin(evt) {
                             
                          }
 
-                         if(item.categoryID ==  cat3.getAttribute('value')){
+                         if(item.categoryID == 3){
                             cat3.setAttribute("checked", true);
                             
                          }else{
@@ -388,7 +359,7 @@ function fetchlogin(evt) {
                             
                          }
 
-                         if(item.categoryID ==  cat4.getAttribute('value')){
+                         if(item.categoryID ==  4){
                             cat4.setAttribute("checked", true);
                             
                          }else{
@@ -396,7 +367,7 @@ function fetchlogin(evt) {
                             
                          }
 
-                         if(item.categoryID ==  cat5.getAttribute('value')){
+                         if(item.categoryID ==  5){
                             cat5.setAttribute("checked", true);
                             
                          }else{
@@ -404,7 +375,7 @@ function fetchlogin(evt) {
                             
                          }
 
-                         if(item.categoryID ==  cat6.getAttribute('value')){
+                         if(item.categoryID ==  6){
                             cat6.setAttribute("checked", true);
                             
                          }else{
@@ -412,7 +383,7 @@ function fetchlogin(evt) {
                             
                          }
 
-                         if(item.categoryID ==  cat7.getAttribute('value')){
+                         if(item.categoryID == 7){
                             cat7.setAttribute("checked", true);
                             
                          }else{
@@ -420,7 +391,7 @@ function fetchlogin(evt) {
                            
                          }
 
-                         if(item.categoryID ==  cat8.getAttribute('value')){
+                         if(item.categoryID ==  8){
                             cat8.setAttribute("checked", true);
                             
                          }else{
@@ -428,8 +399,8 @@ function fetchlogin(evt) {
                          
                          }
 
-                 
-                })
+                     
+                });
                
                  })
                  
@@ -444,7 +415,7 @@ function fetchlogin(evt) {
 
 
     //**********************************
-    //4. checking loggedin starts(GET)
+    //3. checking loggedin starts(GET)
     //**********************************
     window.addEventListener('DOMContentLoaded', function(evt) {
     evt.preventDefault();
@@ -482,7 +453,7 @@ function fetchlogin(evt) {
     //**********************************
 
     //**********************************
-    // 5. Logout starts(GET)
+    // 4. Logout starts(GET)
     //**********************************
 
     function fetchlogout(evt) {

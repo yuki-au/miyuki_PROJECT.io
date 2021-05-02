@@ -239,29 +239,6 @@
        // ↑ ↑ ↑  POST Method  ↑ ↑ ↑
        // ↓ ↓ ↓  Get Method ↓ ↓ ↓
 
-
-
-    //******************************************
-     // Managing Product information starts(GET)
-    //******************************************   
-
-        function getOrdersForUser($u){
-            $sql = "SELECT * FROM orderdata WHERE userID = :user";
-            $stmt = $this->dbconn->prepare($sql);
-            $stmt->bindParam(':user', $u, PDO::PARAM_INT);
-            $result = $stmt->execute();
-            $rows = $stmt->fetchAll();
-                if($result === true) {  
-                    return $rows;
-                } else {
-                    return false;
-                }
-            }
-
-     //*************************************
-     // Managing Product information ends 
-    //************************************* 
-
    //*************************************************
    // Displaying products by category list starts(GET)
    // **Comes form Login part& register part   

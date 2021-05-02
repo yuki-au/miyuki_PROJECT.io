@@ -48,7 +48,7 @@ body {
 }
 
 .user_card {
-    height: 480px;
+    height: 450px;
     width: 350px;
     margin-top: auto;
     margin-bottom: auto;
@@ -413,7 +413,7 @@ input[type="cat[]"]:checked~.label_cate>.cate_img {
     transition: .4s;
 }
 
-input[name="cat2"]:checked~.label_cate2>.cate_img2 {
+input[name="cat2[]"]:checked~.label_cate2>.cate_img2 {
     opacity: .3;
     transition: .4s;
 }
