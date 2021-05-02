@@ -84,11 +84,6 @@
             $this->count_request ++;
             
         }
-        
-        // used to retrieve last user id
-        // public function returnLoginUser() {
-        //     return $this->user_id;
-        // }
 
         //*****************************************************
         // Login part ends 

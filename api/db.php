@@ -130,33 +130,30 @@
                             return false;
                         }
                     }
-
-                    
                     return true;
-            
-                
+    
                   }else if($rows > 1){
                         $sql ="DELETE FROM usercategory WHERE userID = :us";
                         $stmt = $this->dbconn->prepare($sql);
                         $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
                         $res=$stmt->execute();
 
-                             if($res==true){
-                                for($i = 0; $i < count($n_cat) ; $i = $i + 1){      
-                                    $sql2 ="INSERT INTO usercategory(categoryID, userID) VALUE(:cat,:us)";
-                                    $stmt2 = $this->dbconn->prepare($sql2);
-                                    $stmt2->bindParam(':cat',intval($n_cat[$i]), PDO::PARAM_INT);
-                                    $stmt2->bindParam(':us',intval($u), PDO::PARAM_INT);
-                                     $res2=$stmt2->execute();
+                        if($res==true){
+                         for($i = 0; $i < count($n_cat) ; $i = $i + 1){      
+                            $sql2 ="INSERT INTO usercategory(categoryID, userID) VALUE(:cat,:us)";
+                             $stmt2 = $this->dbconn->prepare($sql2);
+                             $stmt2->bindParam(':cat',intval($n_cat[$i]), PDO::PARAM_INT);
+                             $stmt2->bindParam(':us',intval($u), PDO::PARAM_INT);
+                             $res2=$stmt2->execute();
     
-                                     if($res2 == false){
-                                      echo('loop false');
-                                      return false;
-                                     }
+                                if($res2 == false){
+                                    echo('loop false');
+                                    return false;
+                                    }
 
-                                     }
+                            }
                                     
-                                      return $n_cat;
+                               return $n_cat;
 
                             }else{
                                 echo('fail to delete and update');
