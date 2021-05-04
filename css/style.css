@@ -560,13 +560,20 @@ h5 {
 
 /* modal section */
 
-#modal_user {
+#modal_user{
     opacity: 1;
     visibility: visible;
     transition: .3s ease-in-out;
 }
 
-#modal_back {
+
+#modal_user2{
+    opacity: 1;
+    visibility: visible;
+    transition: .6s ease-in-out;
+}
+
+.modal_back {
     position: fixed;
     top: 0;
     left: 0;
@@ -578,7 +585,7 @@ h5 {
     z-index: 0;
 }
 
-#modal_content {
+#modal_content{
     position: absolute;
     width: 270px;
     height: 180px;
@@ -596,7 +603,25 @@ h5 {
     border-radius: 5px;
 }
 
-#modal_header {
+#modal_content2 {
+    position: absolute;
+    width: 290px;
+    height: 180px;
+    background-color: #fffafa;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 9999;
+    opacity: 9;
+    border-radius: 10px 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
+
+.modal_header {
     width: 100%;
     background-color: #ea5566;
     border-radius: 5px 5px 0 0;
@@ -611,10 +636,10 @@ h5 {
     height: 10px;
 }
 
-#modal_middle>p {
+.modal_middle>p {
     text-align: center;
     font-size: 1.1em;
-    margin: 5px 0;
+    margin: 10px 0;
 }
 
 .spinner-border {
@@ -623,11 +648,12 @@ h5 {
     padding: 0;
 }
 
-#spin {
+.spin {
     animation: fadeOut .5s;
     animation-delay: 1.8s;
     animation-fill-mode: forwards;
 }
+
 
 @keyframes fadeOut {
     0% {
@@ -635,10 +661,11 @@ h5 {
     }
     100% {
         opacity: 0;
+        height: 0;
     }
 }
 
-#save {
+#save, #update_cat {
     opacity: 0;
     position: absolute;
     width: 200px!important;

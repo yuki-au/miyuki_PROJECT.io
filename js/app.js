@@ -6,6 +6,7 @@ document.getElementById('update_cat_form').addEventListener('submit', function(e
 // document.getElementById('getOrdersinfo').addEventListener('click', function(e) {getOrdersinfo(e)});
 document.getElementById('link_catlist').addEventListener('click', function(e) {goCatlist(e)});
 document.getElementById('modal_content').addEventListener('submit', function(e) {showProductinfo(e)});
+document.getElementById('update_cat').addEventListener('click', function(e) {showProductinfo(e)});
 document.getElementById('back_home').addEventListener('click', function(e) {showProductinfo(e)});
 document.getElementById('logoutbutton').addEventListener('click', function(e) {fetchlogout(e)});
 
@@ -27,7 +28,7 @@ function fetchlogin(evt) {
     })
     .then(function (headers) {
         if (headers.status == 400) {
-            alert("Error");
+            alert("Invalid username or password");
             return;
         }else if (headers.status == 200) {
              
@@ -38,8 +39,7 @@ function fetchlogin(evt) {
                 })
                 .then(function (headers) {
                     if (headers.status == 401) {
-                        alert('Can not get user data');
-                        
+                        alert('Can not receive your category information');
                         return;
                     }else if (headers.status == 200) {
 
@@ -172,7 +172,7 @@ function fetchlogin(evt) {
                alert('Error');
                 return;
               }else if (headers.status == 200) {
-        
+               document.getElementById('modal_user2').removeAttribute("hidden");
                return;
                 }
              })
@@ -316,8 +316,6 @@ function fetchlogin(evt) {
             return;
         }else if (headers.status == 200) {
     
-           
-
             var cat1 = document.getElementById("check1");
             var cat2 = document.getElementById("check2");
             var cat3 = document.getElementById("check3");
@@ -327,10 +325,10 @@ function fetchlogin(evt) {
             var cat7 = document.getElementById("check7");
             var cat8 = document.getElementById("check8");
             
-    
+            
             document.getElementById('categylist').removeAttribute("hidden");
             document.getElementById('shopping_screen').setAttribute("hidden", "hidden");
-
+            document.getElementById('modal_user2').setAttribute("hidden", "hidden");
               headers.json().then(function(body){
            
                 body.forEach(item => {
