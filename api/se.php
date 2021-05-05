@@ -56,6 +56,7 @@
                     if(date("d-m-Y H:i:s",strtotime($this->request_datetime. "+1 day"))) {
                     if ($this->count_request>=1000) {
                         
+                        $this->count_request=0;
                         return false;
                         
                         }else{
@@ -82,7 +83,6 @@
 
             $this->user_id = $u;    
             $this->count_request ++;
-            
         }
 
         //*****************************************************

@@ -172,69 +172,7 @@
     // Update user category list ends 
     //********************************************
 
-    //********************************************
-    // Add cart starts (POST)
-    //********************************************
-       
-    function addCart($u, $pro, $quantity) { 
-        // fetch product  and retrieve it
-        $sql ="SELECT * FROM product WHERE productID = :pro";
-        $stmt = $this->dbconn->prepare($sql);
-        $stmt->bindParam(':pro', $pro, PDO::PARAM_INT);
-        $res=$stmt->execute();
-        if($res == true){
-             // create cart table with user  (cart auto incremented)
-            $sql2 ="INSERT INTO cart(userID) VALUE(:us)";
-            $stmt2 = $this->dbconn->prepare($sql2);
-            $stmt2->bindParam(':us',intval($u), PDO::PARAM_INT);
-            $res2=$stmt2->execute();
-
-            $cart = $this->dbconn->lastinsert(); 
-         if($res2 == true){
-              $sql3 ="INSERT INTO cartproduct (cartID, productID, quantity) 
-              VALUES (:c, :proID, :quantity)";
-              $stmt3 = $this->dbconn->prepare($sql3);
-              $stmt3->bindParam(':c',$cart, PDO::PARAM_INT);
-              $stmt3->bindParam(':proID',$pro, PDO::PARAM_INT);
-              $stmt3->bindParam(':quantity',$quantity, PDO::PARAM_INT);
-              $res3=$stmt->execute();
-                 
-              return true;
-            } else {
-                 return false;
-             }     
-
-         } else{
-            echo('no such a product info');
-            return false;
-        }        
-    
-    }
-
-    //********************************************
-    // Add cart ends
-    //********************************************
-
-    //********************************************
-    // Remove product info in a cart starts (POST)
-    //********************************************
-     
-    function removeCart($u, $pro) { 
-        // fetch product  and retrieve it
-        $sql ="DELETE FROM cart  WHERE userID = :us";
-        $stmt = $this->dbconn->prepare($sql);
-        $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
-        $res=$stmt->execute();
-        
-        if($res == true){
-            
-         }
-     }
-
-    //********************************************
-    // Remove product info in a cart starts (POST)
-    //********************************************
-
+   
 
        // ↑ ↑ ↑  POST Method  ↑ ↑ ↑
        // ↓ ↓ ↓  Get Method ↓ ↓ ↓
@@ -286,8 +224,6 @@
 
     }
     
-   
-
     //***************************************** 
     // Displaying products by category list ends
     //***************************************** 
@@ -307,6 +243,9 @@
                 return false;
             }
         }
+
+
+
     }
     
 ?>

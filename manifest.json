@@ -1,37 +1,38 @@
 
 
 {
-    "name":"Match",
+    "name":"Match shopping",
     "short_name":"Match",
     "description":"shoppping website",
     "lang":"en",
     "start_url":".",
     "background_color":"#ea5566",
     "theme_color" : "#ea5566",
-    "display":"fullscreen",
+    "display":"standalone",
     "icons":[
         {
-            "src":"image/icon_m3.png",
+            "src":"image/icon512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
         }, 
         {
-            "src":"image/icon_m2.png",
+            "src":"image/icon192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src":"image/icon144.png",
             "sizes": "144x144",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src":"image/icon_m.png",
+            "src":"image/icon72.png",
             "sizes": "72x72",
             "type": "image/png",
             "purpose": "any maskable"
         }
-        ],
-        "features": [
-            "Cross Platform",
-            "fast",
-            "simple"
-          ]
+        ]
     }

@@ -47,8 +47,10 @@ if($session->get('sessionObj')->is_session_limited() == false) {
 }
 
 
+
+
 // domain lock
-if(strpos($request->headers->get('referer'),'localhost')){
+// if(strpos($request->headers->get('referer'),'localhost')){
 
    
         if($request->getMethod() == 'POST') {   
@@ -129,14 +131,10 @@ if(strpos($request->headers->get('referer'),'localhost')){
                     $session->get('sessionObj')->returnUser());
                     
                     if($res == false) {
-                        // creating list is fail
                         $response->setStatusCode(400);
                     } else {
         
                         $response->setStatusCode(200);
-                        // $session->get('sessionObj')->categorylist($res);
-                        // $response->setContent(json_encode($res));
-                        // print_r($session->get('sessionObj')->returnCat());
                        
                     }
 
@@ -154,7 +152,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
                 if($request->request->get('ud_categories')){
                     $res = $sqsdb->updateCatList(
                     $session->get('sessionObj')->returnUser(),
-                    $request->request->get('ud_categories'),);
+                    $request->request->get('ud_categories'));
                     
                     if($res == false) {
                         // Updating category list fail
@@ -171,60 +169,9 @@ if(strpos($request->headers->get('referer'),'localhost')){
             // Update user category list ends 
             //********************************************
 
-            //********************************************
-            //6. Add cart starts (POST)
-            //********************************************
-
-            elseif($request->query->getAlpha('action') == 'addcart') {
-                if($request->request->get('products')){
-                    $res = $sqsdb->addCart(
-                    $session->get('sessionObj')->returnUser(),
-                    $request->request->get('products'),
-                    $request->request->get('quantity'));
-                    
-                    if($res == false) {
-                        // Updating category list fail
-                        $response->setStatusCode(400);
-                    } else {
-                        $session->get('sessionObj')->addToCart($res);
-                        $response->setStatusCode(200);
-                        $response->setContent(json_encode($res));
-                    }
-                }      
-                }
-
-            //********************************************
-            // Add cart ends
-            //********************************************
-
-            //********************************************
-            //7. Remove product info in a cart starts (POST)
-            //********************************************
-            
-            elseif($request->query->getAlpha('action') == 'removeproduct') {
-                if($request->request->get('products')){
-                    $res = $sqsdb->removeCart(
-                    $session->get('sessionObj')->returnUser(),
-                    $request->request->get('products'));
-                    
-                    if($res == false) {
-                        // Updating category list fail
-                        $response->setStatusCode(400);
-                    } else {
-                        $session->get('sessionObj')->addToCart($res);
-                        $response->setStatusCode(200);
-                        $response->setContent(json_encode($res));
-                    }
-                }      
-                } 
-
-            //********************************************
-            // Remove product info in a cart starts (POST)
-            //********************************************
-
+        
         }
             
-
         elseif($request->getMethod() == 'GET') {  
 
             //**********************************************
@@ -268,6 +215,7 @@ if(strpos($request->headers->get('referer'),'localhost')){
             //************************************
             // Calling category list created ends
             //************************************
+
             //**********************************
             //3.  Checking loggedin starts(GET)
             //**********************************
@@ -304,10 +252,10 @@ if(strpos($request->headers->get('referer'),'localhost')){
             //**********************************
         }
 
-}else{
-    echo "unauthrised request";
-    $response->setStatusCode(401);  
-}
+// }else{
+//     echo "unauthrised request";
+//     $response->setStatusCode(401);  
+// }
 
 $response->send();
 

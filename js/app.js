@@ -1,9 +1,7 @@
 document.getElementById('loginform').addEventListener('submit', function(e) {fetchlogin(e)});
 document.getElementById('registerform').addEventListener('submit', function(e) {registerCheck(e)});
 document.getElementById('categoryform').addEventListener('submit', function(e) {categoryList(e)});
-// document.getElementById('linkisloggedin').addEventListener('click', function(e) {checkloggedin(e)});
 document.getElementById('update_cat_form').addEventListener('submit', function(e) {updateCatList(e)});
-// document.getElementById('getOrdersinfo').addEventListener('click', function(e) {getOrdersinfo(e)});
 document.getElementById('link_catlist').addEventListener('click', function(e) {goCatlist(e)});
 document.getElementById('modal_content').addEventListener('submit', function(e) {showProductinfo(e)});
 document.getElementById('update_cat').addEventListener('click', function(e) {showProductinfo(e)});
@@ -181,70 +179,13 @@ function fetchlogin(evt) {
   //********************************************
   // Update user category list ends 
   //********************************************
-   //********************************************
-    //5. Add cart starts (POST)
-    //********************************************
-    function addCart(evt) {
-        evt.preventDefault();
-        var fd = new FormData();
-        fd.append('products', itemName);
-
-        fetch('http://localhost/match/api/api.php?action=addcart', 
-        {
-            method: 'POST',
-            body: fd,
-            credentials: 'include'            
-        })
-        .then(function (headers) {
-            if (headers.status == 400) {
-               alert('Error');
-                return;
-              }else if (headers.status == 200) {
-             
-               return;
-                }
-             })
-   }
-
-     //********************************************
-    // Add cart ends
-    //********************************************
-
-     //********************************************
-    //6. Remove product info in a cart starts (POST)
-    //********************************************
-
-    function removeProduct(evt) {
-        evt.preventDefault();
-        var fd = new FormData();
-        fd.append('products', itemName);
-
-        fetch('http://localhost/match/api/api.php?action=removeproduct', 
-        {
-            method: 'POST',
-            body: fd,
-            credentials: 'include'            
-        })
-        .then(function (headers) {
-            if (headers.status == 400) {
-               alert('Error');
-                return;
-              }else if (headers.status == 200) {
-               return;
-                }
-             })
-   }
-
-    //********************************************
-    // Remove product info in a cart starts (POST)
-    //********************************************
 
         // ↑ ↑ ↑  POST Method  ↑ ↑ ↑
        // ↓ ↓ ↓  Get Method ↓ ↓ ↓
 
-    //**************************************************
+    //****************************************************
     //1.  Displaying products by category list starts(GET)
-    //***************************************************
+    //*****************************************************
 
     function showProductinfo(evt) {
         evt.preventDefault();
@@ -300,7 +241,7 @@ function fetchlogin(evt) {
     //*******************************************
 
     //*************************************
-    //2. Calling category list created(GET)
+    //2. Calling category list that already created(GET)
     //************************************
 
   function goCatlist(evt) {
@@ -329,76 +270,44 @@ function fetchlogin(evt) {
             document.getElementById('categylist').removeAttribute("hidden");
             document.getElementById('shopping_screen').setAttribute("hidden", "hidden");
             document.getElementById('modal_user2').setAttribute("hidden", "hidden");
+
               headers.json().then(function(body){
-           
-                body.forEach(item => {
+                
+            // ↓ To call checked category lists 
+                for(var i = 0; i < body.length; i++){
+                
+                        if(body[i].categoryID == 1){
+                                cat1.setAttribute("checked", true);
+                             }
+    
+                        if(body[i].categoryID ==2){
+                                cat2.setAttribute("checked", true);
+                             }
+    
+                             if(body[i].categoryID == 3){
+                                cat3.setAttribute("checked", true);
+                             }
+    
+                             if(body[i].categoryID ==  4){
+                                cat4.setAttribute("checked", true);
+                             }
+    
+                             if(body[i].categoryID ==  5){
+                                cat5.setAttribute("checked", true);
+                             }
 
-                         if(item.categoryID == 1){
-                            cat1.setAttribute("checked", true);
-                           
-                         }else{
-                            cat1.removeAttribute("checked");
-                            
-                         }
-
-                         if(item.categoryID ==2){
-                            cat2.setAttribute("checked", true);
-                            
-                         }else{
-                            cat2.removeAttribute("checked");
-                            
-                         }
-
-                         if(item.categoryID == 3){
-                            cat3.setAttribute("checked", true);
-                            
-                         }else{
-                            cat3.removeAttribute("checked");
-                            
-                         }
-
-                         if(item.categoryID ==  4){
-                            cat4.setAttribute("checked", true);
-                            
-                         }else{
-                            cat4.removeAttribute("checked");
-                            
-                         }
-
-                         if(item.categoryID ==  5){
-                            cat5.setAttribute("checked", true);
-                            
-                         }else{
-                            cat5.removeAttribute("checked");
-                            
-                         }
-
-                         if(item.categoryID ==  6){
-                            cat6.setAttribute("checked", true);
-                            
-                         }else{
-                            cat6.removeAttribute("checked");
-                            
-                         }
-
-                         if(item.categoryID == 7){
-                            cat7.setAttribute("checked", true);
-                            
-                         }else{
-                            cat7.removeAttribute("checked");
-                           
-                         }
-
-                         if(item.categoryID ==  8){
-                            cat8.setAttribute("checked", true);
-                            
-                         }else{
-                            cat8.removeAttribute("checked");
-                         
-                         }
-
-                     
-                });
+                             if(body[i].categoryID ==  6){
+                                cat6.setAttribute("checked", true);
+                             }
+    
+                             if(body[i].categoryID == 7){
+                                cat7.setAttribute("checked", true);
+                             }
+    
+                             if(body[i].categoryID ==  8){
+                                cat8.setAttribute("checked", true);   
+                             }
+                }
                
                  })
                  
@@ -410,8 +319,7 @@ function fetchlogin(evt) {
     //*******************************************
     // Displaying products by category list ends
     //*******************************************
-
-
+ 
     //**********************************
     //3. checking loggedin starts(GET)
     //**********************************

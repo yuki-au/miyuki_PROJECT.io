@@ -286,6 +286,10 @@ h3 {
     cursor: pointer;
 }
 
+#search_top, #s_icon{
+   cursor: pointer;
+}
+
 #search_area {
     width: 60px;
 }
@@ -425,11 +429,10 @@ input[name="cat2[]"]:checked~.label_cate2>.cate_img2 {
 }
 
 /* register category */
-
 .user_card3 {
     height: 850px;
     width: 390px;
-    margin-top: 50px;
+    margin-top: 80px;
     margin-bottom: auto;
     background: #fffafa;
     position: relative;
