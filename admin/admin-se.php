@@ -1,5 +1,4 @@
 <?php
-
     class sqsSession {
         // attributes will be stored in session, but always test incognito
         private $user_request = 0;
@@ -10,11 +9,7 @@
 
 
         private $admin_id = 0;
-        // private $l_user_id = 0;
-        // private $cat_id = 0;
-        // private $category_id = 0;
-        // private $cart_id = 0;
-        // private $product_info = Array();
+       
 
         private $user_token;
         private $row;
@@ -78,11 +73,7 @@
         //*****************************************************
         
         public function loginAd($au) {
-            // date_default_timezone_set('Australia/Brisbane');
-            // $this->request_datetime = date("d-m-Y H:i:s");
-
             $this->admin_id = $au;    
-            // $this->count_request ++;
         }
         
 
@@ -95,33 +86,7 @@
         //*****************************************************
         // Login part ends 
         //*****************************************************
-     
-
+    
        
-        //*****************************************************
-        // show product info starts 
-        //*****************************************************
-
-        // public function showProduct($rows) {
-        //     return $this->product_info =$rows;
-        // }
-
-        // public function returnProduct() {
-        //     return $this->product_info;
-        // }
-
-        //*****************************************************
-        // show product info ends 
-        //*****************************************************
-
-        // public function isLoggedIn() {
-        //     if($this->user_id == 0) {
-        //         echo("not logged in");
-        //         return false;
-        //     } else {
-        //         echo("logged in");
-        //         return true;
-        //     }
-        // }
     }
 ?>
