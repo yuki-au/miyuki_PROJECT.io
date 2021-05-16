@@ -16,18 +16,16 @@
     //*****************************************************
     function loginPanel($user, $pass) {
         $au = trim($user, '""');
-        $ap = trim($pass, '""');
 
-        $sql = "SELECT * FROM user WHERE username = :user AND password = :pass";
+        $sql = "SELECT userID, username, password, role FROM user WHERE username = :user";
         $stmt = $this->dbconn->prepare($sql);
         $stmt->bindParam(':user', $au, PDO::PARAM_STR);
-        $stmt->bindParam(':pass', $ap, PDO::PARAM_STR);
         $stmt->execute();
-        $rows = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt ->fetch();
 
-        if($stmt->rowCount() > 0) { 
+        if($row && password_verify($row['password'],$pass) && $row['role'] == "admin") { 
             // if user exists
-            return $rows['userID']; 
+            return true; 
             
         } else {
             return false;

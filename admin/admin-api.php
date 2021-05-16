@@ -15,10 +15,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Dotenv\Dotenv;
 
 
-header('Access-Control-Allow-Origin:*');
-header('Access-Control-Allow-Headers:Content-Type');
-header('Access-Control-Allow-Methods:GET, POST, PUT, DELETE, CONNECT');
-header('Content-Type:application/json');
 
 
 $dotenv = new Dotenv();
@@ -38,26 +34,9 @@ $session->start();
 
 
 
-// if(!$session->has('sessionObj')) {
-//     $session->set('sessionObj', new sqsSession);
-// }     
-
-//   // Rate limit Web Service to one request per second per user session 
-//   if($session->get('sessionObj')->is_rate_limited()) {
-//     $response->setStatusCode(429);
-// }
-
-// // Limit per session request to 1,000 in a 24hour period 
-// if($session->get('sessionObj')->is_session_limited() == false) {
-//     $response->setStatusCode(429);
-// }
-
-
-
-
-// domain lock
-// if(strpos($request->headers->get('referer'),'localhost')){
-
+if(!$session->has('sessionObj')) {
+    $session->set('sessionObj', new sqsSession);
+}     
    
         if($request->getMethod() == 'POST') {   
           
@@ -65,22 +44,21 @@ $session->start();
         //1. Admin Login part starts(POST) 
         //*****************************************************
             if($request->query->getAlpha('action') == 'adminLogin') {
-                    
-                        //    echo($request->request->get('username')); 
-                        //    echo($request->request->get('password'));
-               
-                            $res = $sqsdb->loginPanel($request->request->get('name'),
-                                $request->request->get('pass'));
+                
+             //   ↓ remove "" in the password
+               $pass = trim($request->request->get('pass'), '""');
+             //   ↓ encrypt the password
+               $encoded =  password_hash($pass, PASSWORD_DEFAULT);
+             
+               $res = $sqsdb->loginPanel($request->request->get('name'), $encoded);
 
-                                if($res == false) {
-                                    echo ('res false'); 
-                                    $response->setStatusCode(400);
-                                } else{
-                                    $response->setContent(json_encode($res));
-                                    // $session->get('sessionObj')->loginAd($res);
-                                    $response->setStatusCode(200);
-                                }
-                    
+                if($res == false) {
+                    echo ('res false'); 
+                    $response->setStatusCode(400);
+                    } else{
+                    $response->setContent(json_encode($res));
+                    $response->setStatusCode(200);
+                    } 
                 }
 
             //*****************************************************
@@ -181,29 +159,9 @@ $session->start();
            // Displaying all users ends
             //*********************************
 
-            //**********************************
-            //3.  Checking loggedin starts(GET)
-            //**********************************
-
-            // elseif ($request->query->getAlpha('action')=='isLoggedin'){
-            //     $check = $session->get('sessionObj')->isLoggedIn();
-
-            //     if ($check == true) {
-                  
-            //         $response->setStatusCode(200);
-            //     }  else {
-            //         $response->setStatusCode(401);   
-            //     }  
-            // }    
-
             
             //**********************************
-            // checking loggedin ends
-            //**********************************
-
-            
-            //**********************************
-            //4. Logout starts(GET)
+            // Admin Logout starts(GET)
             //**********************************
 
             elseif($request->query->getAlpha('action') == 'adminlogout') {
@@ -213,15 +171,13 @@ $session->start();
             }
 
             //**********************************
-            // Logout ends
+            // Admin Logout ends
             //**********************************
         // }
 
-}
-// else{
-//     echo "unauthrised request";
-//     $response->setStatusCode(401);  
-// }
+         }
+
+
 
 $response->send();
 
