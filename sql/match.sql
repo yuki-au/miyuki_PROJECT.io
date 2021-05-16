@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Mar 26, 2021 at 02:08 PM
+-- Generation Time: May 16, 2021 at 11:09 PM
 -- Server version: 8.0.18
 -- PHP Version: 7.4.0
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `userID` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`cartID`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 
 
 -- --------------------------------------------------------
 
@@ -51,8 +51,7 @@ CREATE TABLE IF NOT EXISTS `cartproduct` (
   PRIMARY KEY (`cartproductID`),
   KEY `cartID` (`cartID`),
   KEY `productID` (`productID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+) ENGINE=InnoDB AUTO_INCREMENT=2 
 -- --------------------------------------------------------
 
 --
@@ -64,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `categoryID` int(10) NOT NULL AUTO_INCREMENT,
   `categoryName` varchar(50) NOT NULL,
   PRIMARY KEY (`categoryID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9
 
 --
 -- Dumping data for table `category`
@@ -94,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `orderdata` (
   `userID` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`OrderNumber`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 
 
 -- --------------------------------------------------------
 
@@ -111,8 +110,7 @@ CREATE TABLE IF NOT EXISTS `order_product` (
   PRIMARY KEY (`order_productID`),
   KEY `productID` (`productID`),
   KEY `OrderNumber` (`OrderNumber`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+) ENGINE=InnoDB AUTO_INCREMENT=2 
 -- --------------------------------------------------------
 
 --
@@ -123,24 +121,25 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
   `productID` int(10) NOT NULL AUTO_INCREMENT,
   `productName` varchar(50) NOT NULL,
+  `productPrice` decimal(10,2) NOT NULL,
   `categoryID` int(10) NOT NULL,
+  `productImg` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`productID`),
   KEY `categoryID` (`categoryID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+) ENGINE=InnoDB AUTO_INCREMENT=23
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`productID`, `productName`, `categoryID`) VALUES
-(1, 'dress', 1),
-(2, 'tablelight', 2),
-(3, 'shirt', 3),
-(4, 'hat', 4),
-(5, 'phonecase', 5),
-(6, 'bag', 6),
-(7, 'watch', 7),
-(8, 'mirror', 8);
+INSERT INTO `product` (`productID`, `productName`, `productPrice`, `categoryID`, `productImg`) VALUES
+(1, 'dress', '130.00', 1, 'image/dress.jpg'),
+(2, 'tablelight', '25.00', 2, 'image/tablelight.jpg'),
+(3, 'shirt', '18.00', 3, 'image/shirt.jpg'),
+(4, 'hat', '36.00', 4, 'image/hat.jpg'),
+(5, 'phonecase', '20.00', 5, 'image/phonecase.jpg'),
+(6, 'bag', '58.00', 6, 'image/bag.jpg'),
+(7, 'watch', '120.00', 7, 'image/watch.jpg'),
+(8, 'mirror', '10.00', 8, 'image/mirror.jpg');
 
 -- --------------------------------------------------------
 
@@ -153,22 +152,18 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(255) NOT NULL,
-  `homeaddress` varchar(100) DEFAULT NULL,
-  `state` varchar(50) DEFAULT NULL,
-  `mobilenumber` int(10) DEFAULT NULL,
+  `role` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`userID`, `username`, `password`, `homeaddress`, `state`, `mobilenumber`) VALUES
-(1, 'us1', '1', NULL, NULL, NULL),
-(2, 'us2', '2', NULL, NULL, NULL),
-(3, 'us3', '3', NULL, NULL, NULL),
-(4, 'us4', '3', NULL, NULL, NULL),
-(5, 'us5', '5', NULL, NULL, NULL);
+INSERT INTO `user` (`userID`, `username`, `password`, `role`) VALUES
+(1, 'user1', '123123', 'admin'),
+(2, 'user2', '123123', NULL),
+(3, 'user3', '123123', NULL);
 
 -- --------------------------------------------------------
 
@@ -184,29 +179,22 @@ CREATE TABLE IF NOT EXISTS `usercategory` (
   PRIMARY KEY (`usercatgoryID`),
   KEY `categoryID` (`categoryID`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 
 
 --
 -- Dumping data for table `usercategory`
 --
 
 INSERT INTO `usercategory` (`usercatgoryID`, `categoryID`, `userID`) VALUES
-(95, 2, 1),
-(96, 3, 1),
-(97, 4, 1),
-(100, 5, 2),
-(101, 6, 2),
-(102, 7, 2),
-(103, 8, 2),
-(107, 1, 4),
-(108, 2, 4),
-(109, 3, 4),
-(110, 4, 4),
-(113, 1, 5),
-(114, 2, 5),
-(115, 3, 5),
-(116, 4, 5),
-(117, 5, 5);
+(18, 5, 1),
+(19, 6, 1),
+(24, 5, 2),
+(25, 6, 2),
+(26, 7, 2),
+(27, 8, 2),
+(28, 1, 3),
+(29, 7, 3),
+(30, 8, 3);
 
 --
 -- Constraints for dumped tables
