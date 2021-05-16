@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `userID` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`cartID`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 
+) ENGINE=InnoDB AUTO_INCREMENT=3;
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `cartproduct` (
   PRIMARY KEY (`cartproductID`),
   KEY `cartID` (`cartID`),
   KEY `productID` (`productID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 
+) ENGINE=InnoDB AUTO_INCREMENT=2;
 -- --------------------------------------------------------
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `categoryID` int(10) NOT NULL AUTO_INCREMENT,
   `categoryName` varchar(50) NOT NULL,
   PRIMARY KEY (`categoryID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9
+) ENGINE=InnoDB AUTO_INCREMENT=9;
 
 --
 -- Dumping data for table `category`
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `orderdata` (
   `userID` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`OrderNumber`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 
+) ENGINE=InnoDB AUTO_INCREMENT=3; 
 
 -- --------------------------------------------------------
 
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `order_product` (
   PRIMARY KEY (`order_productID`),
   KEY `productID` (`productID`),
   KEY `OrderNumber` (`OrderNumber`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 
+) ENGINE=InnoDB AUTO_INCREMENT=2;
 -- --------------------------------------------------------
 
 --
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `productImg` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`productID`),
   KEY `categoryID` (`categoryID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23
+) ENGINE=InnoDB AUTO_INCREMENT=23;
 --
 -- Dumping data for table `product`
 --
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(255) NOT NULL,
   `role` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 
+) ENGINE=InnoDB AUTO_INCREMENT=5;
 
 --
 -- Dumping data for table `user`
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `usercategory` (
   PRIMARY KEY (`usercatgoryID`),
   KEY `categoryID` (`categoryID`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 
+) ENGINE=InnoDB AUTO_INCREMENT=31;
 
 --
 -- Dumping data for table `usercategory`
