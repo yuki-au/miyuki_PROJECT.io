@@ -1,5 +1,5 @@
 <?php
-    class sqsSession {
+    class sqsAdminSession {
         // attributes will be stored in session, but always test incognito
       
         private $origin;

@@ -29,20 +29,21 @@
         }
 
     // Rate limit Web Service to one request per second per user session 
-        public function is_rate_limited() {
+    public function is_rate_limited() {
              
-            if($this->user_request == 0) {
-                $this->user_request = time(); 
-                return false;
-            }
-
-            if($this->user_request == time()) {
-                return true;
-            }                                                                                                                                                                                           
-            
-            return false;
-            
+        if($this->user_request == 0) {
+            $this->user_request = time(); 
+            return true;
         }
+
+        if($this->user_request == time()) {
+            return false;
+        }                                                                                                                                                                                           
+        
+        return true;
+        
+    }
+
 
     // // Limit per session request to 1,000 in a 24hours period 
     public function is_session_limited() {

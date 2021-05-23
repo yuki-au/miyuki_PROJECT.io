@@ -18,7 +18,7 @@ function fetchlogin(evt) {
     var fd = new FormData(loginform);
     var p_name="";
 
-    fetch('http://localhost/match/api/api.php?action=loginmatch',
+    fetch('https://lit-sea-18183.herokuapp.com/api/api.php?action=loginmatch',
     {
         method: 'POST',
         body: fd,
@@ -30,7 +30,7 @@ function fetchlogin(evt) {
             return;
         }else if (headers.status == 200) {
              
-            return fetch('http://localhost/match/api/api.php?action=showproduct', 
+            return fetch('https://lit-sea-18183.herokuapp.com/api/api.php?action=showproduct', 
                 {
                     method: 'GET',
                     credentials: 'include'
@@ -82,7 +82,7 @@ function fetchlogin(evt) {
     evt.preventDefault();
 
     var fd = new FormData(registerform);
-    fetch('http://localhost/match/api/api.php?action=checkaccount',
+    fetch('https://lit-sea-18183.herokuapp.com/api/api.php?action=checkaccount',
     {
         method: 'POST',
         body: fd,
@@ -122,7 +122,7 @@ function fetchlogin(evt) {
 
     var fd = new FormData();
     fd.append('categories', items);
-    fetch('http://localhost/match/api/api.php?action=createcate',
+    fetch('https://lit-sea-18183.herokuapp.com/api/api.php?action=createcate',
     {
         method: 'POST',
         body:fd,
@@ -159,7 +159,7 @@ function fetchlogin(evt) {
         var fd = new FormData();
         fd.append('ud_categories', items);
 
-        fetch('http://localhost/match/api/api.php?action=updatecat', 
+        fetch('https://lit-sea-18183.herokuapp.com/api/api.php?action=updatecat', 
         {
             method: 'POST',
             body: fd,
@@ -191,7 +191,7 @@ function fetchlogin(evt) {
         evt.preventDefault();
         var icon = document.getElementById('svgimage');
         var p_name="";
-        fetch('http://localhost/match/api/api.php?action=showproduct', 
+        fetch('https://lit-sea-18183.herokuapp.com/api/api.php?action=showproduct', 
         {
             method: 'GET',
             credentials: 'include'
@@ -239,14 +239,13 @@ function fetchlogin(evt) {
     //*******************************************
     // Displaying products by category list ends
     //*******************************************
-
     //*************************************
     //2. Calling category list that already created(GET)
     //************************************
 
   function goCatlist(evt) {
     evt.preventDefault();
-    fetch('http://localhost/match/api/api.php?action=callcatlist', 
+    fetch('https://lit-sea-18183.herokuapp.com/api/api.php?action=callcatlist', 
     {     
         method: 'GET',
         credentials: 'include'
@@ -325,7 +324,7 @@ function fetchlogin(evt) {
     //**********************************
     window.addEventListener('DOMContentLoaded', function(evt) {
     evt.preventDefault();
-    fetch('http://localhost/match/api/api.php?action=isLoggedin', 
+    fetch('https://lit-sea-18183.herokuapp.com/api/api.php?action=isLoggedin', 
     {
         method: 'GET',
         credentials: 'include'
@@ -364,7 +363,7 @@ function fetchlogin(evt) {
 
     function fetchlogout(evt) {
     evt.preventDefault();
-    fetch('http://localhost/match/api/api.php?action=logout',
+    fetch('https://lit-sea-18183.herokuapp.com/api/api.php?action=logout',
         {
             method: 'GET',
             credentials: 'include'

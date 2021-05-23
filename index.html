@@ -6,11 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="image/app_icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="image/icon72.png">
     <meta name="theme-color" content="#ea5566"/>
     <link rel="manifest"  href="./manifest.json"/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/jpg" href="image/app_icon.png"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
   </head>
@@ -441,14 +442,14 @@
 // Service worker starts
 // ******************************
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./my_service_worker.js')
-  .then(function(reg) {
-    console.log('Successful' + reg.scope);
-  }).catch(function(error) {
-    console.log('Fail' + error);
-  });
-}
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('./my_service_worker.js')
+//   .then(function(reg) {
+//     console.log('Successful' + reg.scope);
+//   }).catch(function(error) {
+//     console.log('Fail' + error);
+//   });
+// }
 // ******************************
 // Service worker ends
 // ******************************

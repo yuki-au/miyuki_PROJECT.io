@@ -6,8 +6,8 @@
         private $dbconn;
 
         public function __construct() {
-            $dbURI = 'mysql:host='. 'localhost'.';port=3308;dbname='.'match';
-            $this->dbconn = new PDO($dbURI, 'admin', 'test123');
+            $dbURI = 'mysql:host='. 'us-cdbr-east-03.cleardb.com'.';port=3306;dbname='.'heroku_2b09551ff158f6f';
+            $this->dbconn = new PDO($dbURI, 'b6605f1810869e', '7e535a4e');
             $this->dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         
@@ -24,7 +24,6 @@
     
         if($stmt->rowCount() > 0) {
                 return $rows['userID']; 
-
             } else {
                 
                 return false; 
@@ -77,14 +76,17 @@
 
     function creteList($c, $u) { 
         $cats = explode(",", $c);
+        print_r($cats);
+        print_r(gettype($cats));
+
         if (is_array($cats)){        
             
             for($i = 0; $i<count($cats) ; $i = $i + 1){       
             
               $sql ="INSERT INTO usercategory(categoryID, userID) VALUE(:cat,:us)";
               $stmt = $this->dbconn->prepare($sql);
-              $stmt->bindParam(':cat',intval($cats[$i]), PDO::PARAM_INT);
-              $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
+              $stmt->bindParam(':cat',$cats[$i], PDO::PARAM_INT);
+              $stmt->bindParam(':us',$u, PDO::PARAM_INT);
               $res=$stmt->execute();
  
                 if($res == false){
@@ -93,7 +95,7 @@
                 }
              }
 
-              return true;
+             return $cats;
 
              }else{
                  return false;
@@ -110,19 +112,21 @@
         function updateCatList($u, $ud_c) { 
             $sql ="SELECT * FROM usercategory WHERE userID = :us";
             $stmt = $this->dbconn->prepare($sql);
-            $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
+            $stmt->bindParam(':us',$u, PDO::PARAM_INT);
             $res=$stmt->execute();
             $rows = $stmt->fetchAll();
 
             $n_cat = explode(",", $ud_c);
+            print_r($n_cat);
+            print_r(gettype($n_cat));
         
-                if($rows == 1){
+                if(count($rows) == 1){
                     for($i = 0; $i<count($n_cat) ; $i = $i + 1){       
 
                     $sql ="UPDATE usercategory SET categoryID = :cat WHERE userID = :us";
                     $stmt = $this->dbconn->prepare($sql);
-                    $stmt->bindParam(':cat',intval($n_cat[$i]), PDO::PARAM_INT);
-                    $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
+                    $stmt->bindParam(':cat',$n_cat[$i], PDO::PARAM_INT);
+                    $stmt->bindParam(':us',$u, PDO::PARAM_INT);
                     $res=$stmt->execute();
         
                         if($res == false){
@@ -130,21 +134,26 @@
                             return false;
                         }
                     }
-                    return true;
+                    return $n_cat;
     
-                  }else if($rows > 1){
+                  }
+
+                  if($rows > 1){
                         $sql ="DELETE FROM usercategory WHERE userID = :us";
                         $stmt = $this->dbconn->prepare($sql);
-                        $stmt->bindParam(':us',intval($u), PDO::PARAM_INT);
+                        $stmt->bindParam(':us',$u, PDO::PARAM_INT);
                         $res=$stmt->execute();
 
                         if($res==true){
                          for($i = 0; $i < count($n_cat) ; $i = $i + 1){      
                             $sql2 ="INSERT INTO usercategory(categoryID, userID) VALUE(:cat,:us)";
                              $stmt2 = $this->dbconn->prepare($sql2);
-                             $stmt2->bindParam(':cat',intval($n_cat[$i]), PDO::PARAM_INT);
-                             $stmt2->bindParam(':us',intval($u), PDO::PARAM_INT);
+                             $stmt2->bindParam(':cat',$n_cat[$i], PDO::PARAM_INT);
+                             $stmt2->bindParam(':us',$u, PDO::PARAM_INT);
                              $res2=$stmt2->execute();
+
+                            // safe
+
     
                                 if($res2 == false){
                                     echo('loop false');
@@ -155,15 +164,13 @@
                                     
                                return $n_cat;
 
+
                             }else{
                                 echo('fail to delete and update');
                                 return false; 
                             }
 
 
-                        }else{
-                        
-                            return false; 
                         }
                      
                 }
@@ -183,6 +190,7 @@
    //**************************************************
 
         function showProducts($u) {
+    
             $sql = "SELECT product.productPrice,product.productName, product.productImg
             FROM product JOIN category 
             ON product.categoryID = category.categoryID 
@@ -191,6 +199,7 @@
             $stmt->bindParam(':us', $u, PDO::PARAM_INT);
             $res = $stmt->execute();
             $rows = $stmt->fetchAll();
+
             if($res === true) { 
 
                 return $rows;

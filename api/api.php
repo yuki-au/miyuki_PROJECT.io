@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Dotenv\Dotenv;
 // use Symfony\Component\RateLimiter\RateLimiterFactory;
 
-header('Access-Control-Allow-Origin: http://localhost/match/index.html');
-
 $dotenv = new Dotenv();
 $dotenv->load('.env');
 
@@ -26,7 +24,7 @@ $session = new Session(new NativeSessionStorage(), new AttributeBag());
 $response->headers->set('Content-Type', 'application/json');
 $response->headers->set('Access-Control-Allow-Headers', 'origin, content-type, accept');
 $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-$response->headers->set('Access-Control-Allow-Origin', getenv('ORIGIN'));
+$response->headers->set('Access-Control-Allow-Origin', 'https://lit-sea-18183.herokuapp.com/');
 $response->headers->set('Access-Control-Allow-Credentials', 'true');
 
 $session->start();
@@ -37,7 +35,7 @@ if(!$session->has('sessionObj')) {
 }     
 
   // Rate limit Web Service to one request per second per user session 
-  if($session->get('sessionObj')->is_rate_limited()) {
+  if($session->get('sessionObj')->is_rate_limited() == false) {
     $response->setStatusCode(429);
 }
 
@@ -50,7 +48,7 @@ if($session->get('sessionObj')->is_session_limited() == false) {
 
 
 // domain lock
-// if(strpos($request->headers->get('referer'),'localhost')){
+if(strpos($request->headers->get('referer'),'lit-sea-18183.herokuapp.com')){
 
    
         if($request->getMethod() == 'POST') {   
@@ -126,6 +124,7 @@ if($session->get('sessionObj')->is_session_limited() == false) {
             //***************************************************
 
             elseif($request->query->getAlpha('action') == 'createcate') {
+
                 if($request->request->get('categories')){
                     $res = $sqsdb->creteList($request->request->get('categories'),
                     $session->get('sessionObj')->returnUser());
@@ -149,10 +148,15 @@ if($session->get('sessionObj')->is_session_limited() == false) {
             //********************************************
 
             elseif($request->query->getAlpha('action') == 'updatecat') {
+        
+
                 if($request->request->get('ud_categories')){
+
+                    
                     $res = $sqsdb->updateCatList(
                     $session->get('sessionObj')->returnUser(),
                     $request->request->get('ud_categories'));
+
                     
                     if($res == false) {
                         // Updating category list fail
@@ -182,7 +186,7 @@ if($session->get('sessionObj')->is_session_limited() == false) {
                 $res = $sqsdb->showProducts($session->get('sessionObj')->returnUser());
                 
                 if ($res == false) {
-
+                    echo('something wrong with sql');
                     $response->setStatusCode(400);
                 } else {
                    $response->setContent(json_encode($res));
@@ -252,10 +256,10 @@ if($session->get('sessionObj')->is_session_limited() == false) {
             //**********************************
         }
 
-// }else{
-//     echo "unauthrised request";
-//     $response->setStatusCode(401);  
-// }
+}else{
+    echo "unauthrised request";
+    $response->setStatusCode(401);  
+}
 
 $response->send();
 

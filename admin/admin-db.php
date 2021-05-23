@@ -1,15 +1,16 @@
 <?php
 
 
-    class sqsModel {
+    class sqsAdminModel {
 
         private $dbconn;
 
         public function __construct() {
-            $dbURI = 'mysql:host='. 'localhost'.';port=3308;dbname='.'match';
-            $this->dbconn = new PDO($dbURI, 'admin', 'test123');
+            $dbURI = 'mysql:host='. 'us-cdbr-east-03.cleardb.com'.';port=3306;dbname='.'heroku_2b09551ff158f6f';
+            $this->dbconn = new PDO($dbURI, 'b6605f1810869e', '7e535a4e');
             $this->dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
+        
         
     //*****************************************************
     // Login part starts(POST)

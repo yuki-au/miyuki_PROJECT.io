@@ -4,7 +4,7 @@ require('../api/vendor/autoload.php');
 require('admin-db.php');
 require('admin-se.php');
 
-$sqsdb = new sqsModel;
+$sqsdb = new sqsAdminModel;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Dotenv\Dotenv;
 
 
-
-
 $dotenv = new Dotenv();
 $dotenv->load('.env');
 
@@ -24,10 +22,11 @@ $request = Request::createFromGlobals();
 $response = new Response();
 $session = new Session(new NativeSessionStorage(), new AttributeBag());
 
-header('Access-Control-Allow-Origin:*');
-header('Access-Control-Allow-Headers:Content-Type');
-header('Access-Control-Allow-Methods:GET, POST, PUT, DELETE, CONNECT');
-header('Content-Type:application/json');
+$response->headers->set('Content-Type', 'application/json');
+$response->headers->set('Access-Control-Allow-Headers', 'origin, content-type, accept');
+$response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+$response->headers->set('Access-Control-Allow-Origin', 'https://evening-beach-09775.herokuapp.com');
+$response->headers->set('Access-Control-Allow-Credentials', 'true');
 
 
 $session->start();
@@ -35,7 +34,7 @@ $session->start();
 
 
 if(!$session->has('sessionObj')) {
-    $session->set('sessionObj', new sqsSession);
+    $session->set('sessionObj', new sqsAdminSession);
 }     
    
         if($request->getMethod() == 'POST') {   
