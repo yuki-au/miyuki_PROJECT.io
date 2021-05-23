@@ -442,14 +442,14 @@
 // Service worker starts
 // ******************************
 
-// if ('serviceWorker' in navigator) {
-//   navigator.serviceWorker.register('./my_service_worker.js')
-//   .then(function(reg) {
-//     console.log('Successful' + reg.scope);
-//   }).catch(function(error) {
-//     console.log('Fail' + error);
-//   });
-// }
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./my_service_worker.js')
+  .then(function(reg) {
+    console.log('Successful' + reg.scope);
+  }).catch(function(error) {
+    console.log('Fail' + error);
+  });
+}
 // ******************************
 // Service worker ends
 // ******************************
